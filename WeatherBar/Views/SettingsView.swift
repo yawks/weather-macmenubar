@@ -77,8 +77,8 @@ struct SettingsView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                 } else {
-                    SecureField("Clé API Météo France", text: $settings.meteoFranceKey)
-                    Text("Utilisez le token de l'API mobile ou une clé officielle.")
+                    SecureField("Clé API Météo France (apikey)", text: $settings.meteoFranceKey)
+                    Text("Créez un compte sur portail-api.meteofrance.fr, souscrivez à 'V1 - Prévisions' et récupérez votre apikey.")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
