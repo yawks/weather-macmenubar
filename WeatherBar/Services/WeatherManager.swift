@@ -29,8 +29,12 @@ class WeatherManager: ObservableObject {
     }
 
     func refresh() {
-        guard let location = settings.selectedLocation, !settings.apiKey.isEmpty else { return }
+        guard let location = settings.selectedLocation, !settings.apiKey.isEmpty else {
+            print("[WeatherManager] refresh() ignoré — clé API ou localisation manquante (apiKey=\(settings.apiKey.isEmpty ? "vide" : "ok"), location=\(settings.selectedLocation?.name ?? "nil"))")
+            return
+        }
 
+        print("[WeatherManager] Chargement météo pour \(location.name)…")
         isLoading = true
         errorMessage = nil
 
@@ -42,11 +46,13 @@ class WeatherManager: ObservableObject {
                     lang: settings.language,
                     apiKey: settings.apiKey
                 )
+                print("[WeatherManager] ✓ Météo reçue — \(data.current.conditionDescription), \(data.current.temperature)°")
                 await MainActor.run {
                     self.weather = data
                     self.isLoading = false
                 }
             } catch {
+                print("[WeatherManager] ✗ Erreur : \(error)")
                 await MainActor.run {
                     self.errorMessage = error.localizedDescription
                     self.isLoading = false

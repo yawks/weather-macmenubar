@@ -5,14 +5,21 @@ struct WeatherChartView: View {
     let hourlyData: [HourlyWeather]
     let unit: TemperatureUnit
 
+    private var todayData: [HourlyWeather] {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let midnight = calendar.date(byAdding: .day, value: 1, to: today)!
+        return hourlyData.filter { $0.date >= today && $0.date <= midnight }
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Prévisions heure par heure")
+            Text("Aujourd'hui")
                 .font(.headline)
                 .padding(.horizontal)
 
             Chart {
-                ForEach(hourlyData) { hour in
+                ForEach(todayData) { hour in
                     // Precipitation bars
                     BarMark(
                         x: .value("Heure", hour.date, unit: .hour),

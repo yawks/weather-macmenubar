@@ -1,0 +1,316 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+		/* Begin PBXBuildFile section */
+		B86219ECA5CA2FECCEE30A0AE /* PopoverPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B6A1109F47FB9BBB5F6F0A /* PopoverPanel.swift */; };
+		BA6445EB5C39DAB7CBD2D4912 /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9BC361EEDB5DBDB6B558DC8 /* StatusBarController.swift */; };
+		BFE40F72E56A75EE457A73D38 /* WeatherBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A650467E92F5FC3ECDCB8F7F0 /* WeatherBarApp.swift */; };
+		BE9A9BEC5908160D57CFD53EF /* WeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB70DC2A602CDE6882F2DB5EE /* WeatherModels.swift */; };
+		B6F1D6F97BBE0DA70DA8B82D9 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A203C57EF73C9B0457B40D516 /* LocationService.swift */; };
+		B125D139E25984CA918815867 /* OpenWeatherMapProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3943566D7C611F71171B766 /* OpenWeatherMapProvider.swift */; };
+		B2266F6E8B81DCD8FB8C5C4C6 /* WeatherIconMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DCBD060A08E4188AA658059 /* WeatherIconMapper.swift */; };
+		BF114C572BEE519A926823968 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */; };
+		B436F0B3CBB78A56540917632 /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */; };
+		BD1676D0EAD4CF4261061BED5 /* MainWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */; };
+		BB4BB4058B6E4FB05B77F555B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A909CBA078BF5961E0CE2E15E /* SettingsView.swift */; };
+		B0E1A5B08517E6AC3BBCB229E /* WeatherChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */; };
+		/* End PBXBuildFile section */
+
+		/* Begin PBXFileReference section */
+		E0000001 /* WeatherBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF3B6A1109F47FB9BBB5F6F0A /* PopoverPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPanel.swift; sourceTree = "<group>"; };
+		AA9BC361EEDB5DBDB6B558DC8 /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
+		A650467E92F5FC3ECDCB8F7F0 /* WeatherBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherBarApp.swift; sourceTree = "<group>"; };
+		AB70DC2A602CDE6882F2DB5EE /* WeatherModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModels.swift; sourceTree = "<group>"; };
+		A203C57EF73C9B0457B40D516 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		AB3943566D7C611F71171B766 /* OpenWeatherMapProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherMapProvider.swift; sourceTree = "<group>"; };
+		A3DCBD060A08E4188AA658059 /* WeatherIconMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIconMapper.swift; sourceTree = "<group>"; };
+		A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
+		A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
+		AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherView.swift; sourceTree = "<group>"; };
+		A909CBA078BF5961E0CE2E15E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherChartView.swift; sourceTree = "<group>"; };
+		A1000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		/* End PBXFileReference section */
+
+		/* Begin PBXGroup section */
+		E0000010 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E0000001 /* WeatherBar.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E0000011 /* WeatherBar */ = {
+			isa = PBXGroup;
+			children = (
+				E0000012 /* App */,
+				E0000013 /* Models */,
+				E0000014 /* Services */,
+				E0000015 /* Views */,
+				E0000016 /* Resources */,
+				E0000010 /* Products */,
+			);
+			name = WeatherBar;
+			sourceTree = "<group>";
+		};
+		E0000012 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				AF3B6A1109F47FB9BBB5F6F0A /* PopoverPanel.swift */,
+				AA9BC361EEDB5DBDB6B558DC8 /* StatusBarController.swift */,
+				A650467E92F5FC3ECDCB8F7F0 /* WeatherBarApp.swift */,
+			);
+			name = App;
+			path = WeatherBar/App;
+			sourceTree = "<group>";
+		};
+		E0000013 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AB70DC2A602CDE6882F2DB5EE /* WeatherModels.swift */,
+			);
+			name = Models;
+			path = WeatherBar/Models;
+			sourceTree = "<group>";
+		};
+		E0000014 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A203C57EF73C9B0457B40D516 /* LocationService.swift */,
+				AB3943566D7C611F71171B766 /* OpenWeatherMapProvider.swift */,
+				A3DCBD060A08E4188AA658059 /* WeatherIconMapper.swift */,
+				A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */,
+				A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */,
+			);
+			name = Services;
+			path = WeatherBar/Services;
+			sourceTree = "<group>";
+		};
+		E0000015 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */,
+				A909CBA078BF5961E0CE2E15E /* SettingsView.swift */,
+				A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */,
+			);
+			name = Views;
+			path = WeatherBar/Views;
+			sourceTree = "<group>";
+		};
+		E0000016 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A1000001 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		/* End PBXGroup section */
+
+		/* Begin PBXNativeTarget section */
+		E0000020 /* WeatherBar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0000031 /* Build configuration list for PBXNativeTarget "WeatherBar" */;
+			buildPhases = (
+				E0000040 /* Sources */,
+				E0000041 /* Frameworks */,
+				E0000042 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WeatherBar;
+			productName = WeatherBar;
+			productReference = E0000001 /* WeatherBar.app */;
+			productType = "com.apple.product-type.application";
+		};
+		/* End PBXNativeTarget section */
+
+		/* Begin PBXProject section */
+		E0000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1500;
+				ORGANIZATIONNAME = WeatherBar;
+			};
+			buildConfigurationList = E0000030 /* Build configuration list for PBXProject "WeatherBar" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E0000011;
+			productRefGroup = E0000010 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E0000020 /* WeatherBar */,
+			);
+		};
+		/* End PBXProject section */
+
+		/* Begin PBXSourcesBuildPhase section */
+		E0000040 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B86219ECA5CA2FECCEE30A0AE /* PopoverPanel.swift in Sources */,
+				BA6445EB5C39DAB7CBD2D4912 /* StatusBarController.swift in Sources */,
+				BFE40F72E56A75EE457A73D38 /* WeatherBarApp.swift in Sources */,
+				BE9A9BEC5908160D57CFD53EF /* WeatherModels.swift in Sources */,
+				B6F1D6F97BBE0DA70DA8B82D9 /* LocationService.swift in Sources */,
+				B125D139E25984CA918815867 /* OpenWeatherMapProvider.swift in Sources */,
+				B2266F6E8B81DCD8FB8C5C4C6 /* WeatherIconMapper.swift in Sources */,
+				BF114C572BEE519A926823968 /* WeatherManager.swift in Sources */,
+				B436F0B3CBB78A56540917632 /* WeatherProvider.swift in Sources */,
+				BD1676D0EAD4CF4261061BED5 /* MainWeatherView.swift in Sources */,
+				BB4BB4058B6E4FB05B77F555B /* SettingsView.swift in Sources */,
+				B0E1A5B08517E6AC3BBCB229E /* WeatherChartView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		/* End PBXSourcesBuildPhase section */
+
+		/* Begin PBXFrameworksBuildPhase section */
+		E0000041 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		/* End PBXFrameworksBuildPhase section */
+
+		/* Begin PBXResourcesBuildPhase section */
+		E0000042 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		/* End PBXResourcesBuildPhase section */
+
+		/* Begin XCBuildConfiguration section */
+		E0000032 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E0000033 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		E0000034 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.WeatherBar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E0000035 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.WeatherBar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		/* End XCBuildConfiguration section */
+
+		/* Begin XCConfigurationList section */
+		E0000030 /* Build configuration list for PBXProject "WeatherBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0000032 /* Debug */,
+				E0000033 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0000031 /* Build configuration list for PBXNativeTarget "WeatherBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0000034 /* Debug */,
+				E0000035 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		/* End XCConfigurationList section */
+
+	};
+	rootObject = E0000000 /* Project object */;
+}

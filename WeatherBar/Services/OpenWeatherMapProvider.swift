@@ -6,78 +6,111 @@ class OpenWeatherMapProvider: WeatherProvider {
     func fetchWeather(for location: Location, units: TemperatureUnit, lang: String, apiKey: String) async throws -> WeatherData {
         let lat = location.coordinate.latitude
         let lon = location.coordinate.longitude
+        let base = "https://api.openweathermap.org/data/2.5"
+        let common = "lat=\(lat)&lon=\(lon)&units=\(units.rawValue)&lang=\(lang)&appid=\(apiKey)"
 
-        // Using One Call API 3.0
-        let urlString = "https://api.openweathermap.org/data/3.0/onecall?lat=\(lat)&lon=\(lon)&units=\(units.rawValue)&exclude=minutely,alerts&appid=\(apiKey)&lang=\(lang)"
+        async let currentResult: OWMCurrent = fetch("\(base)/weather?\(common)")
+        async let forecastResult: OWMForecast = fetch("\(base)/forecast?\(common)")
 
+        let (current, forecast) = try await (currentResult, forecastResult)
+        return mapResponse(current: current, forecast: forecast)
+    }
+
+    // MARK: - Generic fetch
+
+    private func fetch<T: Decodable>(_ urlString: String) async throws -> T {
         guard let url = URL(string: urlString) else {
             throw WeatherProviderError.invalidURL
         }
 
         let (data, response) = try await URLSession.shared.data(from: url)
 
-        guard let httpResponse = response as? HTTPURLResponse else {
+        guard let http = response as? HTTPURLResponse else {
             throw WeatherProviderError.networkError(NSError(domain: "Network", code: 0))
         }
 
-        if httpResponse.statusCode != 200 {
-            // Try to decode error message from OWM
-            if let errorObj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let message = errorObj["message"] as? String {
-                throw WeatherProviderError.apiError(message)
-            }
-            throw WeatherProviderError.apiError("HTTP Error \(httpResponse.statusCode)")
+        if http.statusCode != 200 {
+            let message = (try? JSONSerialization.jsonObject(with: data) as? [String: Any])
+                .flatMap { $0["message"] as? String }
+                ?? "HTTP \(http.statusCode)"
+            throw WeatherProviderError.apiError(message)
         }
 
         do {
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .secondsSince1970
-            let wrapper = try decoder.decode(OWMResponse.self, from: data)
-            return mapResponse(wrapper)
+            return try JSONDecoder().decode(T.self, from: data)
         } catch {
-            print("Decoding error: \(error)")
+            print("[OWM] Decoding error: \(error)")
             throw WeatherProviderError.decodingError(error)
         }
     }
 
-    private func mapResponse(_ wrapper: OWMResponse) -> WeatherData {
-        let current = CurrentWeather(
-            temperature: wrapper.current.temp,
-            feelsLike: wrapper.current.feels_like,
-            tempMin: wrapper.daily.first?.temp.min ?? wrapper.current.temp,
-            tempMax: wrapper.daily.first?.temp.max ?? wrapper.current.temp,
-            humidity: Double(wrapper.current.humidity),
-            windSpeed: wrapper.current.wind_speed,
-            windDirection: Double(wrapper.current.wind_deg),
-            sunrise: Date(timeIntervalSince1970: TimeInterval(wrapper.current.sunrise)),
-            sunset: Date(timeIntervalSince1970: TimeInterval(wrapper.current.sunset)),
-            condition: mapCondition(wrapper.current.weather.first?.id ?? 800),
-            conditionDescription: wrapper.current.weather.first?.description.capitalized ?? "",
-            iconCode: wrapper.current.weather.first?.icon ?? "01d"
+    // MARK: - Mapping
+
+    private func mapResponse(current: OWMCurrent, forecast: OWMForecast) -> WeatherData {
+        let dailyGroups = Dictionary(grouping: forecast.list) { entry -> String in
+            let date = Date(timeIntervalSince1970: TimeInterval(entry.dt))
+            return Calendar.current.startOfDay(for: date).description
+        }
+
+        let today = Calendar.current.startOfDay(for: Date()).description
+        let todayEntries = dailyGroups[today] ?? []
+        let tempMin = todayEntries.map(\.main.temp_min).min() ?? current.main.temp_min
+        let tempMax = todayEntries.map(\.main.temp_max).max() ?? current.main.temp_max
+
+        let currentWeather = CurrentWeather(
+            temperature: current.main.temp,
+            feelsLike: current.main.feels_like,
+            tempMin: tempMin,
+            tempMax: tempMax,
+            humidity: Double(current.main.humidity),
+            windSpeed: current.wind.speed,
+            windDirection: Double(current.wind.deg ?? 0),
+            sunrise: Date(timeIntervalSince1970: TimeInterval(current.sys.sunrise)),
+            sunset: Date(timeIntervalSince1970: TimeInterval(current.sys.sunset)),
+            condition: mapCondition(current.weather.first?.id ?? 800),
+            conditionDescription: current.weather.first?.description.capitalized ?? "",
+            iconCode: current.weather.first?.icon ?? "01d"
         )
 
-        let hourly = wrapper.hourly.prefix(24).map { h in
+        let currentEntry = HourlyWeather(
+            date: Date(timeIntervalSince1970: TimeInterval(current.dt)),
+            temperature: current.main.temp,
+            precipitationProbability: 0,
+            condition: mapCondition(current.weather.first?.id ?? 800),
+            iconCode: current.weather.first?.icon ?? "01d"
+        )
+
+        let forecastEntries = forecast.list.map { h in
             HourlyWeather(
                 date: Date(timeIntervalSince1970: TimeInterval(h.dt)),
-                temperature: h.temp,
-                precipitationProbability: h.pop,
+                temperature: h.main.temp,
+                precipitationProbability: h.pop ?? 0,
                 condition: mapCondition(h.weather.first?.id ?? 800),
                 iconCode: h.weather.first?.icon ?? "01d"
             )
         }
 
-        let daily = wrapper.daily.map { d in
-            DailyWeather(
-                date: Date(timeIntervalSince1970: TimeInterval(d.dt)),
-                tempMin: d.temp.min,
-                tempMax: d.temp.max,
-                condition: mapCondition(d.weather.first?.id ?? 800),
-                conditionDescription: d.weather.first?.description.capitalized ?? "",
-                iconCode: d.weather.first?.icon ?? "01d"
+        let hourly = ([currentEntry] + forecastEntries)
+            .sorted { $0.date < $1.date }
+
+        let sortedDays = dailyGroups
+            .sorted { $0.key < $1.key }
+            .prefix(7)
+
+        let daily = sortedDays.compactMap { (_, entries) -> DailyWeather? in
+            guard let first = entries.first else { return nil }
+            let noon = entries.min { abs($0.dt % 86400 - 43200) < abs($1.dt % 86400 - 43200) } ?? first
+            return DailyWeather(
+                date: Date(timeIntervalSince1970: TimeInterval(first.dt)),
+                tempMin: entries.map(\.main.temp_min).min() ?? first.main.temp_min,
+                tempMax: entries.map(\.main.temp_max).max() ?? first.main.temp_max,
+                condition: mapCondition(noon.weather.first?.id ?? 800),
+                conditionDescription: noon.weather.first?.description.capitalized ?? "",
+                iconCode: noon.weather.first?.icon ?? "01d"
             )
         }
 
-        return WeatherData(current: current, hourly: Array(hourly), daily: daily)
+        return WeatherData(current: currentWeather, hourly: Array(hourly), daily: daily)
     }
 
     private func mapCondition(_ id: Int) -> WeatherCondition {
@@ -87,52 +120,53 @@ class OpenWeatherMapProvider: WeatherProvider {
         case 500...599: return .rain
         case 600...699: return .snow
         case 700...799: return .atmosphere
-        case 800: return .clear
-        default: return .cloudy
+        case 800:        return .clear
+        default:         return .cloudy
         }
     }
 }
 
-// Internal OWM DTOs
-struct OWMResponse: Codable {
-    let current: OWMCurrent
-    let hourly: [OWMHourly]
-    let daily: [OWMDaily]
+// MARK: - DTOs API 2.5
+
+struct OWMCurrent: Decodable {
+    let dt: Int
+    let weather: [OWMWeatherInfo]
+    let main: OWMMain
+    let wind: OWMWind
+    let sys: OWMSys
 }
 
-struct OWMCurrent: Codable {
+struct OWMForecast: Decodable {
+    let list: [OWMForecastEntry]
+}
+
+struct OWMForecastEntry: Decodable {
     let dt: Int
-    let sunrise: Int
-    let sunset: Int
+    let main: OWMMain
+    let weather: [OWMWeatherInfo]
+    let pop: Double?
+}
+
+struct OWMMain: Decodable {
     let temp: Double
     let feels_like: Double
+    let temp_min: Double
+    let temp_max: Double
     let humidity: Int
-    let wind_speed: Double
-    let wind_deg: Int
-    let weather: [OWMWeatherInfo]
 }
 
-struct OWMHourly: Codable {
-    let dt: Int
-    let temp: Double
-    let pop: Double
-    let weather: [OWMWeatherInfo]
+struct OWMWind: Decodable {
+    let speed: Double
+    let deg: Int?
 }
 
-struct OWMDaily: Codable {
-    let dt: Int
-    let temp: OWMDayTemp
-    let weather: [OWMWeatherInfo]
+struct OWMSys: Decodable {
+    let sunrise: Int
+    let sunset: Int
 }
 
-struct OWMDayTemp: Codable {
-    let min: Double
-    let max: Double
-}
-
-struct OWMWeatherInfo: Codable {
+struct OWMWeatherInfo: Decodable {
     let id: Int
-    let main: String
     let description: String
     let icon: String
 }
