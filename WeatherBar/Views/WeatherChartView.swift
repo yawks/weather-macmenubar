@@ -14,9 +14,18 @@ struct WeatherChartView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Aujourd'hui")
-                .font(.headline)
-                .padding(.horizontal)
+            HStack {
+                Text("Aujourd'hui")
+                    .font(.headline)
+                Spacer()
+                if let deviation = hourlyData.first?.tempDeviation {
+                    let sign = deviation >= 0 ? "+" : ""
+                    Text("Écart: \(sign)\(Int(deviation))°")
+                        .font(.caption.bold())
+                        .foregroundColor(deviation >= 0 ? .red : .blue)
+                }
+            }
+            .padding(.horizontal)
 
             Chart {
                 ForEach(todayData) { hour in
@@ -40,6 +49,24 @@ struct WeatherChartView: View {
                         y: .value("Température", hour.temperature)
                     )
                     .foregroundStyle(Color.orange)
+
+                    // Wind annotation if available
+                    if let windSpeed = hour.windSpeed {
+                        AnnotationMark(
+                            x: .value("Heure", hour.date, unit: .hour),
+                            y: .value("Température", hour.temperature)
+                        ) {
+                            VStack(spacing: 2) {
+                                Image(systemName: "arrow.up")
+                                    .font(.system(size: 8))
+                                    .rotationEffect(.degrees(hour.windDirection ?? 0))
+                                Text("\(Int(windSpeed))")
+                                    .font(.system(size: 7))
+                            }
+                            .foregroundColor(.secondary)
+                            .offset(y: -15)
+                        }
+                    }
                 }
             }
             .chartYAxis {

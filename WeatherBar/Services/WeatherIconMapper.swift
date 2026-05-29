@@ -13,6 +13,11 @@ import Foundation
 
 struct WeatherIconMapper {
     static func symbol(for iconCode: String) -> String {
+        // Météo France
+        if iconCode.hasPrefix("p") {
+            return symbolForMeteoFrance(iconCode)
+        }
+
         switch iconCode {
         case "01d": return "sun.max.fill"
         case "01n": return "moon.stars.fill"
@@ -34,5 +39,24 @@ struct WeatherIconMapper {
         case "50n": return "cloud.fog.fill"
         default:    return "cloud.fill"
         }
+    }
+
+    private static func symbolForMeteoFrance(_ icon: String) -> String {
+        let isNight = icon.hasSuffix("n")
+
+        if icon.contains("p1") { return isNight ? "moon.stars.fill" : "sun.max.fill" }
+        if icon.contains("p2") { return isNight ? "cloud.moon.fill" : "cloud.sun.fill" }
+        if icon.contains("p3") { return "cloud.fill" }
+        if icon.contains("p4") || icon.contains("p5") { return "cloud.fill" }
+        if icon.contains("p6") || icon.contains("p7") || icon.contains("p8") { return "cloud.fill" }
+        if icon.contains("p9") || icon.contains("p10") || icon.contains("p11") { return "cloud.rain.fill" }
+        if icon.contains("p12") || icon.contains("p13") || icon.contains("p14") || icon.contains("p15") { return "cloud.heavyrain.fill" }
+        if icon.contains("p16") || icon.contains("p17") || icon.contains("p18") { return "cloud.bolt.rain.fill" }
+        if icon.contains("p19") || icon.contains("p20") { return "snowflake" }
+        if icon.contains("p21") || icon.contains("p22") || icon.contains("p23") { return "snow" }
+        if icon.contains("p24") || icon.contains("p25") { return "cloud.fog.fill" }
+        if icon.contains("p26") || icon.contains("p27") || icon.contains("p28") || icon.contains("p29") || icon.contains("p30") { return "cloud.drizzle.fill" }
+
+        return isNight ? "moon.stars.fill" : "sun.max.fill"
     }
 }

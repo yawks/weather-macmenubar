@@ -1,9 +1,27 @@
 import SwiftUI
 
+enum WeatherProviderType: String, Codable, CaseIterable {
+    case openWeatherMap = "OpenWeatherMap"
+    case meteoFrance = "Météo France"
+}
+
 class AppSettings: ObservableObject {
-    @AppStorage("apiKey") var apiKey: String = ""
-    @AppStorage("unit") var unit: TemperatureUnit = .celsius
-    @AppStorage("language") var language: String = "fr"
+    @Published var provider: WeatherProviderType {
+        didSet { UserDefaults.standard.set(provider.rawValue, forKey: "provider") }
+    }
+    @Published var apiKey: String {
+        didSet { UserDefaults.standard.set(apiKey, forKey: "apiKey") }
+    }
+    @Published var meteoFranceKey: String {
+        didSet { UserDefaults.standard.set(meteoFranceKey, forKey: "meteoFranceKey") }
+    }
+    @Published var unit: TemperatureUnit {
+        didSet { UserDefaults.standard.set(unit.rawValue, forKey: "unit") }
+    }
+    @Published var language: String {
+        didSet { UserDefaults.standard.set(language, forKey: "language") }
+    }
+
     @Published var selectedLocation: Location? {
         didSet {
             if let location = selectedLocation {
@@ -15,6 +33,12 @@ class AppSettings: ObservableObject {
     }
 
     init() {
+        self.provider = WeatherProviderType(rawValue: UserDefaults.standard.string(forKey: "provider") ?? "") ?? .openWeatherMap
+        self.apiKey = UserDefaults.standard.string(forKey: "apiKey") ?? ""
+        self.meteoFranceKey = UserDefaults.standard.string(forKey: "meteoFranceKey") ?? ""
+        self.unit = TemperatureUnit(rawValue: UserDefaults.standard.string(forKey: "unit") ?? "") ?? .celsius
+        self.language = UserDefaults.standard.string(forKey: "language") ?? "fr"
+
         if let data = UserDefaults.standard.data(forKey: "selectedLocation"),
            let location = try? JSONDecoder().decode(Location.self, from: data) {
             self.selectedLocation = location
@@ -22,7 +46,12 @@ class AppSettings: ObservableObject {
     }
 
     var isConfigured: Bool {
-        !apiKey.isEmpty && selectedLocation != nil
+        let key = provider == .openWeatherMap ? apiKey : meteoFranceKey
+        return !key.isEmpty && selectedLocation != nil
+    }
+
+    var currentApiKey: String {
+        provider == .openWeatherMap ? apiKey : meteoFranceKey
     }
 }
 
@@ -33,11 +62,26 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            Section(header: Text("Fournisseur de données")) {
+                Picker("Source", selection: $settings.provider) {
+                    ForEach(WeatherProviderType.allCases, id: \.self) { type in
+                        Text(type.rawValue).tag(type)
+                    }
+                }
+            }
+
             Section(header: Text("Configuration API")) {
-                TextField("Clé API OpenWeatherMap", text: $settings.apiKey)
-                Text("Une clé API One Call 3.0 est requise.")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                if settings.provider == .openWeatherMap {
+                    TextField("Clé API OpenWeatherMap", text: $settings.apiKey)
+                    Text("Une clé API One Call 3.0 est requise.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                } else {
+                    SecureField("Clé API Météo France", text: $settings.meteoFranceKey)
+                    Text("Utilisez le token de l'API mobile ou une clé officielle.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
 
             Section(header: Text("Localisation")) {

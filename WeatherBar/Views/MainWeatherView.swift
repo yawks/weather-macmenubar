@@ -48,8 +48,21 @@ struct MainWeatherView: View {
                                         .symbolRenderingMode(.multicolor)
 
                                     VStack(alignment: .leading) {
-                                        Text("\(Int(weather.current.temperature))\(settings.unit.symbol)")
-                                            .font(.system(size: 40, weight: .bold))
+                                        HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                            Text("\(Int(weather.current.temperature))\(settings.unit.symbol)")
+                                                .font(.system(size: 40, weight: .bold))
+
+                                            if let deviation = weather.current.tempDeviation {
+                                                let sign = deviation >= 0 ? "+" : ""
+                                                Text("\(sign)\(Int(deviation))°")
+                                                    .font(.subheadline.bold())
+                                                    .foregroundColor(deviation >= 0 ? .red : .blue)
+                                                    .padding(.horizontal, 6)
+                                                    .padding(.vertical, 2)
+                                                    .background(deviation >= 0 ? Color.red.opacity(0.1) : Color.blue.opacity(0.1))
+                                                    .cornerRadius(4)
+                                            }
+                                        }
                                         Text("Ressenti : \(Int(weather.current.feelsLike))\(settings.unit.symbol)")
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
@@ -97,6 +110,12 @@ struct MainWeatherView: View {
                                             .foregroundColor(.secondary)
                                             .lineLimit(1)
                                         Spacer()
+                                        if let morning = day.morningTemperature {
+                                            Text("\(Int(morning))°")
+                                                .font(.caption2)
+                                                .foregroundColor(.blue.opacity(0.8))
+                                                .frame(width: 30, alignment: .trailing)
+                                        }
                                         Text("\(Int(day.tempMax))°")
                                             .frame(width: 30, alignment: .trailing)
                                         Text("\(Int(day.tempMin))°")

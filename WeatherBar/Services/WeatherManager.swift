@@ -7,16 +7,23 @@ class WeatherManager: ObservableObject {
     @Published var errorMessage: String?
 
     private let settings: AppSettings
-    private let provider: WeatherProvider
     private var timer: Timer?
     private var cancellables = Set<AnyCancellable>()
 
-    init(settings: AppSettings, provider: WeatherProvider = OpenWeatherMapProvider()) {
+    private var provider: WeatherProvider {
+        switch settings.provider {
+        case .openWeatherMap:
+            return OpenWeatherMapProvider()
+        case .meteoFrance:
+            return MeteoFranceProvider()
+        }
+    }
+
+    init(settings: AppSettings) {
         self.settings = settings
-        self.provider = provider
 
         // Refresh when settings change
-        settings.$selectedLocation
+        Publishers.CombineLatest(settings.$selectedLocation, settings.$provider)
             .sink { [weak self] _ in self?.refresh() }
             .store(in: &cancellables)
 
@@ -29,8 +36,8 @@ class WeatherManager: ObservableObject {
     }
 
     func refresh() {
-        guard let location = settings.selectedLocation, !settings.apiKey.isEmpty else {
-            print("[WeatherManager] refresh() ignoré — clé API ou localisation manquante (apiKey=\(settings.apiKey.isEmpty ? "vide" : "ok"), location=\(settings.selectedLocation?.name ?? "nil"))")
+        guard let location = settings.selectedLocation, !settings.currentApiKey.isEmpty else {
+            print("[WeatherManager] refresh() ignoré — clé API ou localisation manquante (apiKey=\(settings.currentApiKey.isEmpty ? "vide" : "ok"), location=\(settings.selectedLocation?.name ?? "nil"))")
             return
         }
 
@@ -44,7 +51,7 @@ class WeatherManager: ObservableObject {
                     for: location,
                     units: settings.unit,
                     lang: settings.language,
-                    apiKey: settings.apiKey
+                    apiKey: settings.currentApiKey
                 )
                 print("[WeatherManager] ✓ Météo reçue — \(data.current.conditionDescription), \(data.current.temperature)°")
                 await MainActor.run {
