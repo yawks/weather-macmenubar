@@ -102,6 +102,59 @@ enum AirQualityIndex: String, CaseIterable {
         }
     }
 
+    // Concentration-based index using European AQI breakpoints
+    static func fromConcentration(_ v: Double, for metric: AirMetric) -> AirQualityIndex? {
+        switch metric {
+        case .no2:
+            switch v {
+            case ..<20:  return .veryGood
+            case ..<40:  return .good
+            case ..<90:  return .moderate
+            case ..<120: return .poor
+            case ..<230: return .veryPoor
+            default:     return .extremelyPoor
+            }
+        case .o3:
+            switch v {
+            case ..<33:  return .veryGood
+            case ..<65:  return .good
+            case ..<120: return .moderate
+            case ..<180: return .poor
+            case ..<240: return .veryPoor
+            default:     return .extremelyPoor
+            }
+        case .pm10:
+            switch v {
+            case ..<7:   return .veryGood
+            case ..<15:  return .good
+            case ..<30:  return .moderate
+            case ..<55:  return .poor
+            case ..<110: return .veryPoor
+            default:     return .extremelyPoor
+            }
+        case .pm25:
+            switch v {
+            case ..<5:   return .veryGood
+            case ..<10:  return .good
+            case ..<20:  return .moderate
+            case ..<25:  return .poor
+            case ..<50:  return .veryPoor
+            default:     return .extremelyPoor
+            }
+        case .so2:
+            switch v {
+            case ..<50:  return .veryGood
+            case ..<100: return .good
+            case ..<200: return .moderate
+            case ..<350: return .poor
+            case ..<500: return .veryPoor
+            default:     return .extremelyPoor
+            }
+        default:
+            return nil
+        }
+    }
+
     // Fraction 0–1 used for the pollen bar width
     var barFraction: Double {
         switch self {

@@ -128,12 +128,6 @@ struct MainWeatherView: View {
                                             .foregroundColor(.secondary)
                                             .lineLimit(1)
                                         Spacer()
-                                        if let morning = day.morningTemperature {
-                                            Text("\(Int(morning))°")
-                                                .font(.caption2)
-                                                .foregroundColor(.blue.opacity(0.8))
-                                                .frame(width: 30, alignment: .trailing)
-                                        }
                                         Text("\(Int(day.tempMax))°")
                                             .frame(width: 30, alignment: .trailing)
                                         Text("\(Int(day.tempMin))°")

@@ -98,7 +98,7 @@ class OpenMeteoAirProvider: AirQualityProvider {
                      .pollenOlive, .pollenRagweed, .pollenMugwort:
                     index = .fromPollen(v)
                 default:
-                    index = nil
+                    index = .fromConcentration(v, for: metric)
                 }
             } else {
                 index = nil
