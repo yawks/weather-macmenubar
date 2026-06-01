@@ -15,6 +15,8 @@ class PopoverPanel: NSPanel {
         self.isFloatingPanel = true
         self.level = .statusBar
         self.hasShadow = true
+        self.backgroundColor = .clear
+        self.isOpaque = false
         self.contentViewController = contentViewController
     }
 

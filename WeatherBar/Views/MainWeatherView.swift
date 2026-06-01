@@ -16,6 +16,7 @@ struct WeatherIcon: View {
 struct MainWeatherView: View {
     @ObservedObject var settings: AppSettings
     @ObservedObject var weatherManager: WeatherManager
+    @ObservedObject var airQualityManager: AirQualityManager
 
     var body: some View {
         VStack(spacing: 0) {
@@ -102,6 +103,13 @@ struct MainWeatherView: View {
 
                             // Courbe du jour
                             WeatherChartView(hourlyData: weather.hourly, unit: settings.unit)
+
+                            // Qualité de l'air + pollens
+                            if !airQualityManager.readings.isEmpty {
+                                Divider().padding(.horizontal)
+                                AirQualityView(readings: airQualityManager.readings)
+                                Divider().padding(.horizontal)
+                            }
 
                             // Prévisions 5 jours
                             VStack(alignment: .leading, spacing: 10) {
@@ -200,7 +208,9 @@ struct MainWeatherView: View {
             .padding(.vertical, 10)
             .foregroundColor(.secondary)
         }
-        .frame(width: 350, height: 600)
+        .frame(width: 350, height: 680)
+        .background(.thickMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 }
 

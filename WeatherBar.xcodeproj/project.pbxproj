@@ -18,6 +18,12 @@
 		BF114C572BEE519A926823968 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */; };
 		B436F0B3CBB78A56540917632 /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */; };
 		BC1234567890ABCDEF123456 /* OpenMeteoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1234567890ABCDEF123456 /* OpenMeteoProvider.swift */; };
+		B100A1B2C3D4E5F6A7B8C9D0 /* AirQualityModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100A1B2C3D4E5F6A7B8C9D0 /* AirQualityModels.swift */; };
+		B200A1B2C3D4E5F6A7B8C9D0 /* AirQualityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200A1B2C3D4E5F6A7B8C9D0 /* AirQualityProvider.swift */; };
+		B300A1B2C3D4E5F6A7B8C9D0 /* OpenMeteoAirProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A300A1B2C3D4E5F6A7B8C9D0 /* OpenMeteoAirProvider.swift */; };
+		B400A1B2C3D4E5F6A7B8C9D0 /* AirparifProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A400A1B2C3D4E5F6A7B8C9D0 /* AirparifProvider.swift */; };
+		B500A1B2C3D4E5F6A7B8C9D0 /* AirQualityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A500A1B2C3D4E5F6A7B8C9D0 /* AirQualityManager.swift */; };
+		B600A1B2C3D4E5F6A7B8C9D0 /* AirQualityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A600A1B2C3D4E5F6A7B8C9D0 /* AirQualityView.swift */; };
 		BD1676D0EAD4CF4261061BED5 /* MainWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */; };
 		BB4BB4058B6E4FB05B77F555B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A909CBA078BF5961E0CE2E15E /* SettingsView.swift */; };
 		B0E1A5B08517E6AC3BBCB229E /* WeatherChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */; };
@@ -35,6 +41,12 @@
 		A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
 		AC1234567890ABCDEF123456 /* OpenMeteoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMeteoProvider.swift; sourceTree = "<group>"; };
+		A100A1B2C3D4E5F6A7B8C9D0 /* AirQualityModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityModels.swift; sourceTree = "<group>"; };
+		A200A1B2C3D4E5F6A7B8C9D0 /* AirQualityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityProvider.swift; sourceTree = "<group>"; };
+		A300A1B2C3D4E5F6A7B8C9D0 /* OpenMeteoAirProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMeteoAirProvider.swift; sourceTree = "<group>"; };
+		A400A1B2C3D4E5F6A7B8C9D0 /* AirparifProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirparifProvider.swift; sourceTree = "<group>"; };
+		A500A1B2C3D4E5F6A7B8C9D0 /* AirQualityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityManager.swift; sourceTree = "<group>"; };
+		A600A1B2C3D4E5F6A7B8C9D0 /* AirQualityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityView.swift; sourceTree = "<group>"; };
 		AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherView.swift; sourceTree = "<group>"; };
 		A909CBA078BF5961E0CE2E15E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherChartView.swift; sourceTree = "<group>"; };
@@ -78,6 +90,7 @@
 		E0000013 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A100A1B2C3D4E5F6A7B8C9D0 /* AirQualityModels.swift */,
 				AB70DC2A602CDE6882F2DB5EE /* WeatherModels.swift */,
 			);
 			name = Models;
@@ -87,7 +100,11 @@
 		E0000014 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A400A1B2C3D4E5F6A7B8C9D0 /* AirparifProvider.swift */,
+				A500A1B2C3D4E5F6A7B8C9D0 /* AirQualityManager.swift */,
+				A200A1B2C3D4E5F6A7B8C9D0 /* AirQualityProvider.swift */,
 				A203C57EF73C9B0457B40D516 /* LocationService.swift */,
+				A300A1B2C3D4E5F6A7B8C9D0 /* OpenMeteoAirProvider.swift */,
 				AB3943566D7C611F71171B766 /* OpenWeatherMapProvider.swift */,
 				AC1234567890ABCDEF123456 /* OpenMeteoProvider.swift */,
 				A3DCBD060A08E4188AA658059 /* WeatherIconMapper.swift */,
@@ -101,6 +118,7 @@
 		E0000015 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A600A1B2C3D4E5F6A7B8C9D0 /* AirQualityView.swift */,
 				AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */,
 				A909CBA078BF5961E0CE2E15E /* SettingsView.swift */,
 				A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */,
@@ -176,6 +194,12 @@
 				B6F1D6F97BBE0DA70DA8B82D9 /* LocationService.swift in Sources */,
 				B125D139E25984CA918815867 /* OpenWeatherMapProvider.swift in Sources */,
 				BC1234567890ABCDEF123456 /* OpenMeteoProvider.swift in Sources */,
+				B100A1B2C3D4E5F6A7B8C9D0 /* AirQualityModels.swift in Sources */,
+				B200A1B2C3D4E5F6A7B8C9D0 /* AirQualityProvider.swift in Sources */,
+				B300A1B2C3D4E5F6A7B8C9D0 /* OpenMeteoAirProvider.swift in Sources */,
+				B400A1B2C3D4E5F6A7B8C9D0 /* AirparifProvider.swift in Sources */,
+				B500A1B2C3D4E5F6A7B8C9D0 /* AirQualityManager.swift in Sources */,
+				B600A1B2C3D4E5F6A7B8C9D0 /* AirQualityView.swift in Sources */,
 				B2266F6E8B81DCD8FB8C5C4C6 /* WeatherIconMapper.swift in Sources */,
 				BF114C572BEE519A926823968 /* WeatherManager.swift in Sources */,
 				B436F0B3CBB78A56540917632 /* WeatherProvider.swift in Sources */,
