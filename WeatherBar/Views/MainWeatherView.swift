@@ -1,8 +1,22 @@
 import SwiftUI
 
+struct WeatherIcon: View {
+    let iconCode: String
+    var size: CGFloat = 20
+
+    var body: some View {
+        Image(systemName: WeatherIconMapper.symbol(for: iconCode))
+            .symbolRenderingMode(.multicolor)
+            .font(.system(size: size))
+            .padding(size * 0.35)
+            .background(Circle().fill(Color.primary.opacity(0.08)))
+    }
+}
+
 struct MainWeatherView: View {
     @ObservedObject var settings: AppSettings
     @ObservedObject var weatherManager: WeatherManager
+    @ObservedObject var airQualityManager: AirQualityManager
 
     var body: some View {
         VStack(spacing: 0) {
@@ -43,13 +57,24 @@ struct MainWeatherView: View {
                             // Températures + condition
                             VStack(spacing: 10) {
                                 HStack {
-                                    Image(systemName: WeatherIconMapper.symbol(for: weather.current.iconCode))
-                                        .font(.system(size: 60))
-                                        .symbolRenderingMode(.multicolor)
+                                    WeatherIcon(iconCode: weather.current.iconCode, size: 44)
 
                                     VStack(alignment: .leading) {
-                                        Text("\(Int(weather.current.temperature))\(settings.unit.symbol)")
-                                            .font(.system(size: 40, weight: .bold))
+                                        HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                            Text("\(Int(weather.current.temperature))\(settings.unit.symbol)")
+                                                .font(.system(size: 40, weight: .bold))
+
+                                            if let deviation = weather.current.tempDeviation {
+                                                let sign = deviation >= 0 ? "+" : ""
+                                                Text("\(sign)\(Int(deviation))°")
+                                                    .font(.subheadline.bold())
+                                                    .foregroundColor(deviation >= 0 ? .red : .blue)
+                                                    .padding(.horizontal, 6)
+                                                    .padding(.vertical, 2)
+                                                    .background(deviation >= 0 ? Color.red.opacity(0.1) : Color.blue.opacity(0.1))
+                                                    .cornerRadius(4)
+                                            }
+                                        }
                                         Text("Ressenti : \(Int(weather.current.feelsLike))\(settings.unit.symbol)")
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
@@ -79,6 +104,13 @@ struct MainWeatherView: View {
                             // Courbe du jour
                             WeatherChartView(hourlyData: weather.hourly, unit: settings.unit)
 
+                            // Qualité de l'air + pollens
+                            if !airQualityManager.readings.isEmpty {
+                                Divider().padding(.horizontal)
+                                AirQualityView(readings: airQualityManager.readings)
+                                Divider().padding(.horizontal)
+                            }
+
                             // Prévisions 5 jours
                             VStack(alignment: .leading, spacing: 10) {
                                 Text("Prévisions 5 jours")
@@ -89,14 +121,19 @@ struct MainWeatherView: View {
                                     HStack {
                                         Text(day.date.formatted(.dateTime.weekday(.wide)))
                                             .frame(width: 80, alignment: .leading)
-                                        Image(systemName: WeatherIconMapper.symbol(for: day.iconCode))
-                                            .symbolRenderingMode(.multicolor)
-                                            .frame(width: 30)
+                                        WeatherIcon(iconCode: day.iconCode, size: 14)
+                                            .frame(width: 36)
                                         Text(day.conditionDescription)
                                             .font(.caption)
                                             .foregroundColor(.secondary)
                                             .lineLimit(1)
                                         Spacer()
+                                        if let morning = day.morningTemperature {
+                                            Text("\(Int(morning))°")
+                                                .font(.caption2)
+                                                .foregroundColor(.blue.opacity(0.8))
+                                                .frame(width: 30, alignment: .trailing)
+                                        }
                                         Text("\(Int(day.tempMax))°")
                                             .frame(width: 30, alignment: .trailing)
                                         Text("\(Int(day.tempMin))°")
@@ -107,6 +144,14 @@ struct MainWeatherView: View {
                                 }
                             }
                             .padding(.bottom)
+
+                            if let syncDate = weatherManager.lastSyncDate {
+                                Text("Dernière sync · \(syncDate.formatted(date: .omitted, time: .shortened))")
+                                    .font(.caption2)
+                                    .foregroundColor(weatherManager.lastSyncFailed ? .red : .secondary)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .padding(.bottom, 8)
+                            }
                         }
                     }
                 } else if let error = weatherManager.errorMessage {
@@ -163,7 +208,9 @@ struct MainWeatherView: View {
             .padding(.vertical, 10)
             .foregroundColor(.secondary)
         }
-        .frame(width: 350, height: 600)
+        .frame(width: 350, height: 680)
+        .background(.thickMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 }
 

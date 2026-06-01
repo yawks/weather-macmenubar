@@ -2,8 +2,11 @@ import Foundation
 
 class OpenWeatherMapProvider: WeatherProvider {
     let name = "OpenWeatherMap"
+    private let apiKey: String
 
-    func fetchWeather(for location: Location, units: TemperatureUnit, lang: String, apiKey: String) async throws -> WeatherData {
+    init(apiKey: String) { self.apiKey = apiKey }
+
+    func fetchWeather(for location: Location, units: TemperatureUnit, lang: String) async throws -> WeatherData {
         let lat = location.coordinate.latitude
         let lon = location.coordinate.longitude
         let base = "https://api.openweathermap.org/data/2.5"

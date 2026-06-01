@@ -7,15 +7,21 @@ class StatusBarController {
     private var panel: PopoverPanel
     private var settings: AppSettings
     private var weatherManager: WeatherManager
+    private var airQualityManager: AirQualityManager
     private var eventMonitor: Any?
     private var cancellables = Set<AnyCancellable>()
 
-    init(settings: AppSettings, weatherManager: WeatherManager) {
+    init(settings: AppSettings, weatherManager: WeatherManager, airQualityManager: AirQualityManager) {
         self.settings = settings
         self.weatherManager = weatherManager
+        self.airQualityManager = airQualityManager
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
-        let contentView = MainWeatherView(settings: settings, weatherManager: weatherManager)
+        let contentView = MainWeatherView(
+            settings: settings,
+            weatherManager: weatherManager,
+            airQualityManager: airQualityManager
+        )
         let hostingController = NSHostingController(rootView: contentView)
 
         self.panel = PopoverPanel(

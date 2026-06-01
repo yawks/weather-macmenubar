@@ -14,11 +14,16 @@ struct WeatherBarApp: App {
 class AppDelegate: NSObject, NSApplicationDelegate {
     var settings = AppSettings()
     lazy var weatherManager = WeatherManager(settings: settings)
+    lazy var airQualityManager = AirQualityManager(settings: settings)
     var statusBarController: StatusBarController?
     var settingsWindow: NSWindow?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        statusBarController = StatusBarController(settings: settings, weatherManager: weatherManager)
+        statusBarController = StatusBarController(
+            settings: settings,
+            weatherManager: weatherManager,
+            airQualityManager: airQualityManager
+        )
 
         // Show settings if not configured
         if !settings.isConfigured {
@@ -27,6 +32,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc func openSettings() {
+        statusBarController?.hidePanel()
+
         if settingsWindow == nil {
             let contentView = SettingsView(settings: settings)
             let hostingController = NSHostingController(rootView: contentView)
