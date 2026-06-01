@@ -2,7 +2,7 @@ import SwiftUI
 
 enum WeatherProviderType: String, Codable, CaseIterable {
     case openWeatherMap = "OpenWeatherMap"
-    case meteoFrance = "Météo France"
+    case openMeteo = "Open-Meteo"
 }
 
 class AppSettings: ObservableObject {
@@ -11,9 +11,6 @@ class AppSettings: ObservableObject {
     }
     @Published var apiKey: String {
         didSet { UserDefaults.standard.set(apiKey, forKey: "apiKey") }
-    }
-    @Published var meteoFranceKey: String {
-        didSet { UserDefaults.standard.set(meteoFranceKey, forKey: "meteoFranceKey") }
     }
     @Published var unit: TemperatureUnit {
         didSet { UserDefaults.standard.set(unit.rawValue, forKey: "unit") }
@@ -35,7 +32,6 @@ class AppSettings: ObservableObject {
     init() {
         self.provider = WeatherProviderType(rawValue: UserDefaults.standard.string(forKey: "provider") ?? "") ?? .openWeatherMap
         self.apiKey = UserDefaults.standard.string(forKey: "apiKey") ?? ""
-        self.meteoFranceKey = UserDefaults.standard.string(forKey: "meteoFranceKey") ?? ""
         self.unit = TemperatureUnit(rawValue: UserDefaults.standard.string(forKey: "unit") ?? "") ?? .celsius
         self.language = UserDefaults.standard.string(forKey: "language") ?? "fr"
 
@@ -46,12 +42,14 @@ class AppSettings: ObservableObject {
     }
 
     var isConfigured: Bool {
-        let key = provider == .openWeatherMap ? apiKey : meteoFranceKey
-        return !key.isEmpty && selectedLocation != nil
+        switch provider {
+        case .openWeatherMap: return !apiKey.isEmpty && selectedLocation != nil
+        case .openMeteo:      return selectedLocation != nil
+        }
     }
 
     var currentApiKey: String {
-        provider == .openWeatherMap ? apiKey : meteoFranceKey
+        provider == .openWeatherMap ? apiKey : ""
     }
 }
 
@@ -70,15 +68,10 @@ struct SettingsView: View {
                 }
             }
 
-            Section(header: Text("Configuration API")) {
-                if settings.provider == .openWeatherMap {
+            if settings.provider == .openWeatherMap {
+                Section(header: Text("Configuration API")) {
                     TextField("Clé API OpenWeatherMap", text: $settings.apiKey)
                     Text("Une clé API One Call 3.0 est requise.")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                } else {
-                    SecureField("Clé API Météo France (apikey)", text: $settings.meteoFranceKey)
-                    Text("Créez un compte sur portail-api.meteofrance.fr, souscrivez à 'V1 - Prévisions' et récupérez votre apikey.")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }

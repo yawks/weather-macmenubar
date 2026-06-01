@@ -1,5 +1,18 @@
 import SwiftUI
 
+struct WeatherIcon: View {
+    let iconCode: String
+    var size: CGFloat = 20
+
+    var body: some View {
+        Image(systemName: WeatherIconMapper.symbol(for: iconCode))
+            .symbolRenderingMode(.multicolor)
+            .font(.system(size: size))
+            .padding(size * 0.35)
+            .background(Circle().fill(Color.primary.opacity(0.08)))
+    }
+}
+
 struct MainWeatherView: View {
     @ObservedObject var settings: AppSettings
     @ObservedObject var weatherManager: WeatherManager
@@ -43,9 +56,7 @@ struct MainWeatherView: View {
                             // Températures + condition
                             VStack(spacing: 10) {
                                 HStack {
-                                    Image(systemName: WeatherIconMapper.symbol(for: weather.current.iconCode))
-                                        .font(.system(size: 60))
-                                        .symbolRenderingMode(.multicolor)
+                                    WeatherIcon(iconCode: weather.current.iconCode, size: 44)
 
                                     VStack(alignment: .leading) {
                                         HStack(alignment: .firstTextBaseline, spacing: 8) {
@@ -102,9 +113,8 @@ struct MainWeatherView: View {
                                     HStack {
                                         Text(day.date.formatted(.dateTime.weekday(.wide)))
                                             .frame(width: 80, alignment: .leading)
-                                        Image(systemName: WeatherIconMapper.symbol(for: day.iconCode))
-                                            .symbolRenderingMode(.multicolor)
-                                            .frame(width: 30)
+                                        WeatherIcon(iconCode: day.iconCode, size: 14)
+                                            .frame(width: 36)
                                         Text(day.conditionDescription)
                                             .font(.caption)
                                             .foregroundColor(.secondary)
@@ -126,6 +136,14 @@ struct MainWeatherView: View {
                                 }
                             }
                             .padding(.bottom)
+
+                            if let syncDate = weatherManager.lastSyncDate {
+                                Text("Dernière sync · \(syncDate.formatted(date: .omitted, time: .shortened))")
+                                    .font(.caption2)
+                                    .foregroundColor(weatherManager.lastSyncFailed ? .red : .secondary)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .padding(.bottom, 8)
+                            }
                         }
                     }
                 } else if let error = weatherManager.errorMessage {

@@ -77,12 +77,14 @@ if [[ $RUN_APP -eq 1 ]]; then
         exit 1
     fi
 
-    echo "→ Lancement de l'application..."
-    open "$APP_PATH"
+    BINARY="$APP_PATH/Contents/MacOS/WeatherBar"
 
     if [[ $FOLLOW_LOGS -eq 1 ]]; then
-        echo "→ Logs en direct (Ctrl+C pour arrêter) :"
+        echo "→ Lancement avec logs en direct (Ctrl+C pour arrêter) :"
         echo ""
-        log stream --predicate 'subsystem == "com.local.WeatherBar" OR process == "WeatherBar"' --level debug
+        "$BINARY"
+    else
+        echo "→ Lancement de l'application..."
+        open "$APP_PATH"
     fi
 fi

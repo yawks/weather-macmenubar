@@ -7,6 +7,7 @@
 	objects = {
 
 		/* Begin PBXBuildFile section */
+		BE0A55EF00001234567890AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE0A55EF00001234567890AB /* Assets.xcassets */; };
 		B86219ECA5CA2FECCEE30A0AE /* PopoverPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B6A1109F47FB9BBB5F6F0A /* PopoverPanel.swift */; };
 		BA6445EB5C39DAB7CBD2D4912 /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9BC361EEDB5DBDB6B558DC8 /* StatusBarController.swift */; };
 		BFE40F72E56A75EE457A73D38 /* WeatherBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A650467E92F5FC3ECDCB8F7F0 /* WeatherBarApp.swift */; };
@@ -16,6 +17,7 @@
 		B2266F6E8B81DCD8FB8C5C4C6 /* WeatherIconMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DCBD060A08E4188AA658059 /* WeatherIconMapper.swift */; };
 		BF114C572BEE519A926823968 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */; };
 		B436F0B3CBB78A56540917632 /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */; };
+		BC1234567890ABCDEF123456 /* OpenMeteoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1234567890ABCDEF123456 /* OpenMeteoProvider.swift */; };
 		BD1676D0EAD4CF4261061BED5 /* MainWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */; };
 		BB4BB4058B6E4FB05B77F555B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A909CBA078BF5961E0CE2E15E /* SettingsView.swift */; };
 		B0E1A5B08517E6AC3BBCB229E /* WeatherChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */; };
@@ -32,10 +34,12 @@
 		A3DCBD060A08E4188AA658059 /* WeatherIconMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIconMapper.swift; sourceTree = "<group>"; };
 		A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
+		AC1234567890ABCDEF123456 /* OpenMeteoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMeteoProvider.swift; sourceTree = "<group>"; };
 		AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherView.swift; sourceTree = "<group>"; };
 		A909CBA078BF5961E0CE2E15E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherChartView.swift; sourceTree = "<group>"; };
 		A1000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		AE0A55EF00001234567890AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = WeatherBar/Assets.xcassets; sourceTree = SOURCE_ROOT; name = Assets.xcassets; };
 		/* End PBXFileReference section */
 
 		/* Begin PBXGroup section */
@@ -85,6 +89,7 @@
 			children = (
 				A203C57EF73C9B0457B40D516 /* LocationService.swift */,
 				AB3943566D7C611F71171B766 /* OpenWeatherMapProvider.swift */,
+				AC1234567890ABCDEF123456 /* OpenMeteoProvider.swift */,
 				A3DCBD060A08E4188AA658059 /* WeatherIconMapper.swift */,
 				A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */,
 				A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */,
@@ -108,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				A1000001 /* Info.plist */,
+				AE0A55EF00001234567890AB /* Assets.xcassets */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -169,6 +175,7 @@
 				BE9A9BEC5908160D57CFD53EF /* WeatherModels.swift in Sources */,
 				B6F1D6F97BBE0DA70DA8B82D9 /* LocationService.swift in Sources */,
 				B125D139E25984CA918815867 /* OpenWeatherMapProvider.swift in Sources */,
+				BC1234567890ABCDEF123456 /* OpenMeteoProvider.swift in Sources */,
 				B2266F6E8B81DCD8FB8C5C4C6 /* WeatherIconMapper.swift in Sources */,
 				BF114C572BEE519A926823968 /* WeatherManager.swift in Sources */,
 				B436F0B3CBB78A56540917632 /* WeatherProvider.swift in Sources */,
@@ -195,6 +202,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE0A55EF00001234567890AB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +261,7 @@
 		E0000034 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -272,6 +281,7 @@
 		E0000035 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = NO;

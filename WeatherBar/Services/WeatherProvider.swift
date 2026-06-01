@@ -2,7 +2,7 @@ import Foundation
 
 protocol WeatherProvider {
     var name: String { get }
-    func fetchWeather(for location: Location, units: TemperatureUnit, lang: String, apiKey: String) async throws -> WeatherData
+    func fetchWeather(for location: Location, units: TemperatureUnit, lang: String) async throws -> WeatherData
 }
 
 enum WeatherProviderError: Error, LocalizedError {

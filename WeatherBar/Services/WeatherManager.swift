@@ -5,6 +5,8 @@ class WeatherManager: ObservableObject {
     @Published var weather: WeatherData?
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var lastSyncDate: Date?
+    @Published var lastSyncFailed = false
 
     private let settings: AppSettings
     private var timer: Timer?
@@ -12,19 +14,21 @@ class WeatherManager: ObservableObject {
 
     private var provider: WeatherProvider {
         switch settings.provider {
-        case .openWeatherMap:
-            return OpenWeatherMapProvider()
-        case .meteoFrance:
-            return MeteoFranceProvider()
+        case .openWeatherMap: return OpenWeatherMapProvider(apiKey: settings.currentApiKey)
+        case .openMeteo:      return OpenMeteoProvider()
         }
     }
 
     init(settings: AppSettings) {
         self.settings = settings
 
-        // Refresh when settings change
+        // Refresh when settings change.
+        // dropFirst() skips the immediate emission so the explicit refresh() below handles startup.
+        // DispatchQueue.main.async defers execution past @Published's willSet, ensuring
+        // settings.provider is already updated when refresh() reads it.
         Publishers.CombineLatest(settings.$selectedLocation, settings.$provider)
-            .sink { [weak self] _ in self?.refresh() }
+            .dropFirst()
+            .sink { [weak self] _ in DispatchQueue.main.async { self?.refresh() } }
             .store(in: &cancellables)
 
         // Auto refresh every 15 minutes
@@ -36,33 +40,37 @@ class WeatherManager: ObservableObject {
     }
 
     func refresh() {
-        guard let location = settings.selectedLocation, !settings.currentApiKey.isEmpty else {
-            print("[WeatherManager] refresh() ignoré — clé API ou localisation manquante (apiKey=\(settings.currentApiKey.isEmpty ? "vide" : "ok"), location=\(settings.selectedLocation?.name ?? "nil"))")
+        guard settings.isConfigured, let location = settings.selectedLocation else {
+            print("[WeatherManager] refresh() ignoré — configuration incomplète (location=\(settings.selectedLocation?.name ?? "nil"))")
             return
         }
 
         print("[WeatherManager] Chargement météo pour \(location.name)…")
         isLoading = true
         errorMessage = nil
+        weather = nil
 
         Task {
             do {
                 let data = try await provider.fetchWeather(
                     for: location,
                     units: settings.unit,
-                    lang: settings.language,
-                    apiKey: settings.currentApiKey
+                    lang: settings.language
                 )
                 print("[WeatherManager] ✓ Météo reçue — \(data.current.conditionDescription), \(data.current.temperature)°")
                 await MainActor.run {
                     self.weather = data
                     self.isLoading = false
+                    self.lastSyncDate = Date()
+                    self.lastSyncFailed = false
                 }
             } catch {
                 print("[WeatherManager] ✗ Erreur : \(error)")
                 await MainActor.run {
                     self.errorMessage = error.localizedDescription
                     self.isLoading = false
+                    self.lastSyncDate = Date()
+                    self.lastSyncFailed = true
                 }
             }
         }
