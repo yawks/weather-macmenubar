@@ -27,6 +27,8 @@
 		BD1676D0EAD4CF4261061BED5 /* MainWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */; };
 		BB4BB4058B6E4FB05B77F555B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A909CBA078BF5961E0CE2E15E /* SettingsView.swift */; };
 		B0E1A5B08517E6AC3BBCB229E /* WeatherChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */; };
+		BC700A1B2C3D4E5F6A7B8C9DA /* MoonCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC700A1B2C3D4E5F6A7B8C9DA /* MoonCalculator.swift */; };
+		BC800A1B2C3D4E5F6A7B8C9DA /* MoonPhaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC800A1B2C3D4E5F6A7B8C9DA /* MoonPhaseView.swift */; };
 		/* End PBXBuildFile section */
 
 		/* Begin PBXFileReference section */
@@ -50,6 +52,8 @@
 		AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherView.swift; sourceTree = "<group>"; };
 		A909CBA078BF5961E0CE2E15E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherChartView.swift; sourceTree = "<group>"; };
+		AC700A1B2C3D4E5F6A7B8C9DA /* MoonCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonCalculator.swift; sourceTree = "<group>"; };
+		AC800A1B2C3D4E5F6A7B8C9DA /* MoonPhaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonPhaseView.swift; sourceTree = "<group>"; };
 		A1000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		AE0A55EF00001234567890AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = WeatherBar/Assets.xcassets; sourceTree = SOURCE_ROOT; name = Assets.xcassets; };
 		/* End PBXFileReference section */
@@ -110,6 +114,7 @@
 				A3DCBD060A08E4188AA658059 /* WeatherIconMapper.swift */,
 				A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */,
 				A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */,
+				AC700A1B2C3D4E5F6A7B8C9DA /* MoonCalculator.swift */,
 			);
 			name = Services;
 			path = WeatherBar/Services;
@@ -120,6 +125,7 @@
 			children = (
 				A600A1B2C3D4E5F6A7B8C9D0 /* AirQualityView.swift */,
 				AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */,
+				AC800A1B2C3D4E5F6A7B8C9DA /* MoonPhaseView.swift */,
 				A909CBA078BF5961E0CE2E15E /* SettingsView.swift */,
 				A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */,
 			);
@@ -206,6 +212,8 @@
 				BD1676D0EAD4CF4261061BED5 /* MainWeatherView.swift in Sources */,
 				BB4BB4058B6E4FB05B77F555B /* SettingsView.swift in Sources */,
 				B0E1A5B08517E6AC3BBCB229E /* WeatherChartView.swift in Sources */,
+				BC700A1B2C3D4E5F6A7B8C9DA /* MoonCalculator.swift in Sources */,
+				BC800A1B2C3D4E5F6A7B8C9DA /* MoonPhaseView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

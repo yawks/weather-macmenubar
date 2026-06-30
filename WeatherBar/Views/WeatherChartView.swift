@@ -5,6 +5,8 @@ struct WeatherChartView: View {
     let hourlyData: [HourlyWeather]
     let unit: TemperatureUnit
 
+    @State private var hoveredHour: HourlyWeather? = nil
+
     private var todayData: [HourlyWeather] {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
@@ -18,6 +20,10 @@ struct WeatherChartView: View {
 
     private var tempMax: Double {
         (todayData.map { $0.temperature }.max() ?? 30) + 2
+    }
+
+    private func isCurrentHour(_ date: Date) -> Bool {
+        Calendar.current.isDate(date, equalTo: Date(), toGranularity: .hour)
     }
 
     private func scaledTemp(_ temp: Double) -> Double {
@@ -46,12 +52,15 @@ struct WeatherChartView: View {
 
             Chart {
                 ForEach(todayData) { hour in
+                    let isCurrent = isCurrentHour(hour.date)
+                    let isHovered = hoveredHour?.id == hour.id
+
                     // Precipitation bars
                     BarMark(
                         x: .value("Heure", hour.date, unit: .hour),
                         y: .value("Précipitations", hour.precipitationProbability * 100)
                     )
-                    .foregroundStyle(Color.blue.opacity(0.3))
+                    .foregroundStyle(Color.blue.opacity(isCurrent ? 0.75 : 0.3))
 
                     // Temperature line (normalized to 0-100 scale)
                     LineMark(
@@ -65,17 +74,33 @@ struct WeatherChartView: View {
                         x: .value("Heure", hour.date, unit: .hour),
                         y: .value("Température", scaledTemp(hour.temperature))
                     )
-                    .foregroundStyle(Color.orange)
+                    .foregroundStyle(isCurrent || isHovered ? Color.orange : Color.orange.opacity(0.5))
+                    .symbolSize(isCurrent || isHovered ? 80 : 40)
                     .annotation(position: .top) {
-                        if let windSpeed = hour.windSpeed {
-                            VStack(spacing: 2) {
-                                Image(systemName: "arrow.up")
-                                    .font(.system(size: 8))
-                                    .rotationEffect(.degrees(hour.windDirection ?? 0))
-                                Text("\(Int(windSpeed))")
-                                    .font(.system(size: 7))
+                        VStack(spacing: 1) {
+                            if isCurrent || isHovered {
+                                Text("\(Int(hour.temperature.rounded()))\(unit.symbol)")
+                                    .font(.system(size: 9, weight: .bold))
+                                    .foregroundColor(.orange)
+                                    .padding(.horizontal, 4)
+                                    .padding(.vertical, 2)
+                                    .background(Color(NSColor.windowBackgroundColor))
+                                    .cornerRadius(4)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .stroke(Color.orange.opacity(0.5), lineWidth: 1)
+                                    )
                             }
-                            .foregroundColor(.secondary)
+                            if let windSpeed = hour.windSpeed {
+                                VStack(spacing: 2) {
+                                    Image(systemName: "arrow.up")
+                                        .font(.system(size: 8))
+                                        .rotationEffect(.degrees(hour.windDirection ?? 0))
+                                    Text("\(Int(windSpeed))")
+                                        .font(.system(size: 7))
+                                }
+                                .foregroundColor(isCurrent ? .primary : .secondary)
+                            }
                         }
                     }
                 }
@@ -105,6 +130,26 @@ struct WeatherChartView: View {
             .chartXAxis {
                 AxisMarks(values: .stride(by: .hour, count: 4)) { value in
                     AxisValueLabel(format: .dateTime.hour())
+                }
+            }
+            .chartOverlay { proxy in
+                GeometryReader { geometry in
+                    Rectangle()
+                        .fill(.clear)
+                        .contentShape(Rectangle())
+                        .onContinuousHover { phase in
+                            switch phase {
+                            case .active(let location):
+                                let x = location.x - geometry[proxy.plotAreaFrame].origin.x
+                                if let date: Date = proxy.value(atX: x) {
+                                    hoveredHour = todayData.min(by: {
+                                        abs($0.date.timeIntervalSince(date)) < abs($1.date.timeIntervalSince(date))
+                                    })
+                                }
+                            case .ended:
+                                hoveredHour = nil
+                            }
+                        }
                 }
             }
             .frame(height: 150)

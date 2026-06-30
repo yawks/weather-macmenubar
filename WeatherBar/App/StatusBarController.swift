@@ -40,15 +40,17 @@ class StatusBarController {
     }
 
     private func setupBindings() {
-        weatherManager.$weather
+        Publishers.CombineLatest(weatherManager.$weather, weatherManager.$lastSyncFailed)
             .receive(on: RunLoop.main)
-            .sink { [weak self] weather in
+            .sink { [weak self] weather, syncFailed in
                 guard let self = self else { return }
                 if let weather = weather {
                     self.updateStatusItem(
                         temperature: weather.current.temperature,
                         iconName: WeatherIconMapper.symbol(for: weather.current.iconCode)
                     )
+                } else if syncFailed {
+                    self.updateStatusItem(temperature: nil, iconName: "exclamationmark.triangle.fill")
                 }
             }
             .store(in: &cancellables)

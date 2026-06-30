@@ -48,7 +48,6 @@ class WeatherManager: ObservableObject {
         print("[WeatherManager] Chargement météo pour \(location.name)…")
         isLoading = true
         errorMessage = nil
-        weather = nil
 
         Task {
             do {

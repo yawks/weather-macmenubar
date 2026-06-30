@@ -11,7 +11,7 @@ class OpenMeteoProvider: WeatherProvider {
         components.queryItems = [
             URLQueryItem(name: "latitude",         value: "\(location.coordinate.latitude)"),
             URLQueryItem(name: "longitude",        value: "\(location.coordinate.longitude)"),
-            URLQueryItem(name: "hourly",           value: "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m"),
+            URLQueryItem(name: "hourly",           value: "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m,uv_index"),
             URLQueryItem(name: "daily",            value: "weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_probability_max"),
             URLQueryItem(name: "timezone",         value: "auto"),
             URLQueryItem(name: "forecast_days",    value: "7"),
@@ -21,7 +21,9 @@ class OpenMeteoProvider: WeatherProvider {
 
         guard let url = components.url else { throw WeatherProviderError.invalidURL }
 
-        let (data, response) = try await URLSession.shared.data(from: url)
+        var request = URLRequest(url: url)
+        request.setValue("WeatherBar/1.0 (macOS; contact: github.com/weather-macmenubar)", forHTTPHeaderField: "User-Agent")
+        let (data, response) = try await URLSession.shared.data(for: request)
 
         guard let http = response as? HTTPURLResponse else {
             throw WeatherProviderError.networkError(NSError(domain: "Network", code: 0))
@@ -74,7 +76,8 @@ class OpenMeteoProvider: WeatherProvider {
             condition:            condition(for: currentCode),
             conditionDescription: describe(currentCode, lang: lang),
             iconCode:             iconCode(currentCode, isDay: currentIsDay),
-            tempDeviation:        nil
+            tempDeviation:        nil,
+            uvIndex:              h.uv_index?[currentIdx]
         )
 
         let hourly: [HourlyWeather] = hourlyDates.indices.prefix(24).map { i in
@@ -212,6 +215,7 @@ struct OMHourly: Decodable {
     let weather_code: [Int]
     let wind_speed_10m: [Double]
     let wind_direction_10m: [Int]
+    let uv_index: [Double]?
 }
 
 struct OMDaily: Decodable {

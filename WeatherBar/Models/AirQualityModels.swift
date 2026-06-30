@@ -102,52 +102,53 @@ enum AirQualityIndex: String, CaseIterable {
         }
     }
 
-    // Concentration-based index using European AQI breakpoints
+    // Concentration-based index using French INQA breakpoints (arrêté du 10 juin 2021)
+    // First level is "Bon" — there is no "Très bon" in the INQA scale.
     static func fromConcentration(_ v: Double, for metric: AirMetric) -> AirQualityIndex? {
         switch metric {
         case .no2:
             switch v {
-            case ..<20:  return .veryGood
             case ..<40:  return .good
             case ..<90:  return .moderate
             case ..<120: return .poor
             case ..<230: return .veryPoor
+            case ..<340: return .extremelyPoor
             default:     return .extremelyPoor
             }
         case .o3:
             switch v {
-            case ..<33:  return .veryGood
-            case ..<65:  return .good
-            case ..<120: return .moderate
-            case ..<180: return .poor
+            case ..<50:  return .good
+            case ..<100: return .moderate
+            case ..<130: return .poor
             case ..<240: return .veryPoor
+            case ..<380: return .extremelyPoor
             default:     return .extremelyPoor
             }
         case .pm10:
             switch v {
-            case ..<7:   return .veryGood
-            case ..<15:  return .good
-            case ..<30:  return .moderate
-            case ..<55:  return .poor
-            case ..<110: return .veryPoor
+            case ..<20:  return .good
+            case ..<40:  return .moderate
+            case ..<50:  return .poor
+            case ..<100: return .veryPoor
+            case ..<150: return .extremelyPoor
             default:     return .extremelyPoor
             }
         case .pm25:
             switch v {
-            case ..<5:   return .veryGood
             case ..<10:  return .good
             case ..<20:  return .moderate
             case ..<25:  return .poor
             case ..<50:  return .veryPoor
+            case ..<75:  return .extremelyPoor
             default:     return .extremelyPoor
             }
         case .so2:
             switch v {
-            case ..<50:  return .veryGood
             case ..<100: return .good
             case ..<200: return .moderate
             case ..<350: return .poor
             case ..<500: return .veryPoor
+            case ..<750: return .extremelyPoor
             default:     return .extremelyPoor
             }
         default:
@@ -164,6 +165,132 @@ enum AirQualityIndex: String, CaseIterable {
         case .poor:          return 0.75
         case .veryPoor:      return 0.9
         case .extremelyPoor: return 1.0
+        }
+    }
+}
+
+// MARK: - Metric info (for popovers)
+
+extension AirMetric {
+    var fullName: String {
+        switch self {
+        case .europeanAQI:   return "Indice de Qualité de l'Air Européen"
+        case .pm25:          return "Particules fines (Ø < 2,5 µm)"
+        case .pm10:          return "Particules inhalables (Ø < 10 µm)"
+        case .no2:           return "Dioxyde d'azote"
+        case .o3:            return "Ozone troposphérique"
+        case .so2:           return "Dioxyde de soufre"
+        case .pollenGrasses: return "Graminées — Poaceae"
+        case .pollenBirch:   return "Bouleau — Betula"
+        case .pollenAlder:   return "Aulne — Alnus"
+        case .pollenOlive:   return "Olivier — Olea europaea"
+        case .pollenRagweed: return "Ambroisies — Ambrosia"
+        case .pollenMugwort: return "Armoises — Artemisia"
+        }
+    }
+
+    var metricDescription: String {
+        switch self {
+        case .europeanAQI:
+            return "Indice composite calculé à partir des principaux polluants atmosphériques. Reflète la qualité globale de l'air à un instant donné. Source : European Environment Agency (EEA)."
+        case .no2:
+            return "Gaz issu principalement du trafic routier et des combustions industrielles. Irritant pour les voies respiratoires supérieures, il aggrave les maladies cardiovasculaires et l'asthme."
+        case .o3:
+            return "Gaz formé par réaction photochimique (soleil + NOₓ + composés organiques volatils). Concentrations maximales en fin d'après-midi en été. Irritant pulmonaire, réduit la fonction respiratoire."
+        case .pm10:
+            return "Particules de diamètre inférieur à 10 µm issues de combustions (trafic, chauffage), poussières et procédés industriels. Se déposent dans les voies aériennes supérieures."
+        case .pm25:
+            return "Particules de diamètre inférieur à 2,5 µm. Pénètrent profondément dans les alvéoles pulmonaires et passent dans le sang. Effets cardiovasculaires et respiratoires à long terme."
+        case .so2:
+            return "Gaz issu de la combustion de carburants soufrés (fioul lourd, charbon) et de certains procédés industriels. Irritant des voies respiratoires, contribue aux pluies acides."
+        case .pollenGrasses:
+            return "Pollens de graminées (gazon, blé, seigle, fléole…). Principale cause de rhume des foins en Europe. Très allergisants. Saison : avril à juillet, pic en mai–juin."
+        case .pollenBirch:
+            return "Pollens de bouleau, arbre des zones tempérées. Très allergisant, avec réactions croisées fréquentes (pomme, noisette, carotte). Saison : mars à mai."
+        case .pollenAlder:
+            return "Pollens d'aulne, l'un des premiers arbres à fleurir. Réactions croisées possibles avec le bouleau. Saison : janvier à mars, selon la région."
+        case .pollenOlive:
+            return "Pollens d'olivier, très allergisant dans le bassin méditerranéen. Peut provoquer des réactions croisées avec les frênes. Saison : mai à juin."
+        case .pollenRagweed:
+            return "Pollens d'ambroisies, plante envahissante originaire d'Amérique du Nord. Extrêmement allergisante, même à faible concentration. Saison : août à octobre."
+        case .pollenMugwort:
+            return "Pollens d'armoises (Artemisia). Saison : juillet à septembre. Réactions croisées fréquentes avec les ambroisies et certains aliments (céleri, épices)."
+        }
+    }
+
+    // (index level, range label) for display in the info popover
+    var displayThresholds: [(AirQualityIndex, String)] {
+        switch self {
+        case .europeanAQI:
+            return [
+                (.veryGood,      "0 – 20"),
+                (.good,          "20 – 40"),
+                (.moderate,      "40 – 60"),
+                (.poor,          "60 – 80"),
+                (.veryPoor,      "80 – 100"),
+                (.extremelyPoor, "> 100"),
+            ]
+        case .no2:
+            return [
+                (.good,          "< 40 µg/m³"),
+                (.moderate,      "40 – 90 µg/m³"),
+                (.poor,          "90 – 120 µg/m³"),
+                (.veryPoor,      "120 – 230 µg/m³"),
+                (.extremelyPoor, "> 230 µg/m³"),
+            ]
+        case .o3:
+            return [
+                (.good,          "< 50 µg/m³"),
+                (.moderate,      "50 – 100 µg/m³"),
+                (.poor,          "100 – 130 µg/m³"),
+                (.veryPoor,      "130 – 240 µg/m³"),
+                (.extremelyPoor, "> 240 µg/m³"),
+            ]
+        case .pm10:
+            return [
+                (.good,          "< 20 µg/m³"),
+                (.moderate,      "20 – 40 µg/m³"),
+                (.poor,          "40 – 50 µg/m³"),
+                (.veryPoor,      "50 – 100 µg/m³"),
+                (.extremelyPoor, "> 100 µg/m³"),
+            ]
+        case .pm25:
+            return [
+                (.good,          "< 10 µg/m³"),
+                (.moderate,      "10 – 20 µg/m³"),
+                (.poor,          "20 – 25 µg/m³"),
+                (.veryPoor,      "25 – 50 µg/m³"),
+                (.extremelyPoor, "> 50 µg/m³"),
+            ]
+        case .so2:
+            return [
+                (.good,          "< 100 µg/m³"),
+                (.moderate,      "100 – 200 µg/m³"),
+                (.poor,          "200 – 350 µg/m³"),
+                (.veryPoor,      "350 – 500 µg/m³"),
+                (.extremelyPoor, "> 500 µg/m³"),
+            ]
+        case .pollenGrasses, .pollenBirch, .pollenAlder,
+             .pollenOlive, .pollenRagweed, .pollenMugwort:
+            return [
+                (.veryGood,      "< 5 gr/m³"),
+                (.good,          "5 – 15 gr/m³"),
+                (.moderate,      "15 – 50 gr/m³"),
+                (.poor,          "50 – 100 gr/m³"),
+                (.veryPoor,      "> 100 gr/m³"),
+            ]
+        }
+    }
+
+    var thresholdSource: String {
+        switch self {
+        case .europeanAQI:
+            return "Source : European Environment Agency"
+        case .pollenGrasses, .pollenBirch, .pollenAlder,
+             .pollenOlive, .pollenRagweed, .pollenMugwort:
+            return "Source : Open-Meteo / SILAM model"
+        default:
+            return "Référentiel : INQA (arrêté du 10 juin 2021)"
         }
     }
 }

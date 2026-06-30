@@ -15,7 +15,6 @@ struct AirQualityView: View {
             .sorted { $0.metric.rawValue < $1.metric.rawValue }
     }
 
-    // Metrics that appear from more than one provider (show provider badge)
     private var duplicatedMetrics: Set<AirMetric> {
         let counts = Dictionary(grouping: readings, by: \.metric).mapValues(\.count)
         return Set(counts.filter { $0.value > 1 }.keys)
@@ -67,6 +66,87 @@ private struct AirSectionHeader: View {
     }
 }
 
+// MARK: - Metric info popover
+
+struct MetricInfoPopover: View {
+    let metric: AirMetric
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            // Header
+            VStack(alignment: .leading, spacing: 2) {
+                Text(metric.displayName)
+                    .font(.headline)
+                Text(metric.fullName)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+
+            Divider()
+
+            // Description
+            Text(metric.metricDescription)
+                .font(.caption)
+                .foregroundColor(.primary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            // Thresholds
+            let thresholds = metric.displayThresholds
+            if !thresholds.isEmpty {
+                Divider()
+
+                Text("Niveaux")
+                    .font(.caption2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.secondary)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    ForEach(thresholds, id: \.0) { index, range in
+                        HStack(spacing: 6) {
+                            Circle()
+                                .fill(index.color)
+                                .frame(width: 7, height: 7)
+                            Text(index.rawValue)
+                                .font(.caption2)
+                                .frame(width: 88, alignment: .leading)
+                            Text(range)
+                                .font(.caption2.monospacedDigit())
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+
+                Text(metric.thresholdSource)
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+                    .padding(.top, 2)
+            }
+        }
+        .padding(14)
+        .frame(width: 260)
+    }
+}
+
+// MARK: - Hoverable metric label
+
+private struct HoverableMetricLabel: View {
+    let metric: AirMetric
+    let width: CGFloat
+
+    @State private var showInfo = false
+
+    var body: some View {
+        Text(metric.displayName)
+            .font(.footnote)
+            .frame(width: width, alignment: .leading)
+            .foregroundColor(.primary)
+            .onHover { showInfo = $0 }
+            .popover(isPresented: $showInfo, arrowEdge: .trailing) {
+                MetricInfoPopover(metric: metric)
+            }
+    }
+}
+
 // MARK: - Pollution row
 
 struct AirReadingRow: View {
@@ -75,10 +155,7 @@ struct AirReadingRow: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            Text(reading.metric.displayName)
-                .font(.footnote)
-                .frame(width: 72, alignment: .leading)
-                .foregroundColor(.primary)
+            HoverableMetricLabel(metric: reading.metric, width: 72)
 
             if let idx = reading.index {
                 Circle()
@@ -119,10 +196,7 @@ struct AirReadingRow: View {
 
     private func valueText(_ v: Double, metric: AirMetric) -> String {
         let unit = metric.unit
-        if unit.isEmpty {
-            return "\(Int(v))"
-        }
-        return "\(Int(v)) \(unit)"
+        return unit.isEmpty ? "\(Int(v))" : "\(Int(v)) \(unit)"
     }
 }
 
@@ -133,10 +207,7 @@ struct PollenReadingRow: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            Text(reading.metric.displayName)
-                .font(.footnote)
-                .frame(width: 72, alignment: .leading)
-                .foregroundColor(.primary)
+            HoverableMetricLabel(metric: reading.metric, width: 72)
 
             GeometryReader { geo in
                 ZStack(alignment: .leading) {

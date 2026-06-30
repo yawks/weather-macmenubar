@@ -51,6 +51,7 @@ struct CurrentWeather: Codable {
     let conditionDescription: String
     let iconCode: String // Original API icon code for day/night differentiation
     var tempDeviation: Double? = nil // Temperature deviation from normal
+    var uvIndex: Double? = nil
 }
 
 struct HourlyWeather: Codable, Identifiable {
