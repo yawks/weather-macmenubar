@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C0000004"
+               BlueprintIdentifier = "E0000020"
                BuildableName = "WeatherBar.app"
                BlueprintName = "WeatherBar"
                ReferencedContainer = "container:WeatherBar.xcodeproj">
@@ -36,7 +36,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C0000004"
+            BlueprintIdentifier = "E0000020"
             BuildableName = "WeatherBar.app"
             BlueprintName = "WeatherBar"
             ReferencedContainer = "container:WeatherBar.xcodeproj">

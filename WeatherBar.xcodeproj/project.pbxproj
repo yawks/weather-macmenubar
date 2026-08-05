@@ -8,138 +8,140 @@
 
 		/* Begin PBXBuildFile section */
 		BE0A55EF00001234567890AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE0A55EF00001234567890AB /* Assets.xcassets */; };
-		B86219ECA5CA2FECCEE30A0AE /* PopoverPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B6A1109F47FB9BBB5F6F0A /* PopoverPanel.swift */; };
-		BA6445EB5C39DAB7CBD2D4912 /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9BC361EEDB5DBDB6B558DC8 /* StatusBarController.swift */; };
-		BFE40F72E56A75EE457A73D38 /* WeatherBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A650467E92F5FC3ECDCB8F7F0 /* WeatherBarApp.swift */; };
-		BE9A9BEC5908160D57CFD53EF /* WeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB70DC2A602CDE6882F2DB5EE /* WeatherModels.swift */; };
-		B6F1D6F97BBE0DA70DA8B82D9 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A203C57EF73C9B0457B40D516 /* LocationService.swift */; };
-		B125D139E25984CA918815867 /* OpenWeatherMapProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3943566D7C611F71171B766 /* OpenWeatherMapProvider.swift */; };
-		B2266F6E8B81DCD8FB8C5C4C6 /* WeatherIconMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DCBD060A08E4188AA658059 /* WeatherIconMapper.swift */; };
-		BF114C572BEE519A926823968 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */; };
-		B436F0B3CBB78A56540917632 /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */; };
-		BC1234567890ABCDEF123456 /* OpenMeteoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1234567890ABCDEF123456 /* OpenMeteoProvider.swift */; };
-		B100A1B2C3D4E5F6A7B8C9D0 /* AirQualityModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100A1B2C3D4E5F6A7B8C9D0 /* AirQualityModels.swift */; };
-		B200A1B2C3D4E5F6A7B8C9D0 /* AirQualityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200A1B2C3D4E5F6A7B8C9D0 /* AirQualityProvider.swift */; };
-		B300A1B2C3D4E5F6A7B8C9D0 /* OpenMeteoAirProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A300A1B2C3D4E5F6A7B8C9D0 /* OpenMeteoAirProvider.swift */; };
-		B400A1B2C3D4E5F6A7B8C9D0 /* AirparifProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A400A1B2C3D4E5F6A7B8C9D0 /* AirparifProvider.swift */; };
-		B500A1B2C3D4E5F6A7B8C9D0 /* AirQualityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A500A1B2C3D4E5F6A7B8C9D0 /* AirQualityManager.swift */; };
-		B600A1B2C3D4E5F6A7B8C9D0 /* AirQualityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A600A1B2C3D4E5F6A7B8C9D0 /* AirQualityView.swift */; };
-		BD1676D0EAD4CF4261061BED5 /* MainWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */; };
-		BB4BB4058B6E4FB05B77F555B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A909CBA078BF5961E0CE2E15E /* SettingsView.swift */; };
-		B0E1A5B08517E6AC3BBCB229E /* WeatherChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */; };
-		BC700A1B2C3D4E5F6A7B8C9DA /* MoonCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC700A1B2C3D4E5F6A7B8C9DA /* MoonCalculator.swift */; };
-		BC800A1B2C3D4E5F6A7B8C9DA /* MoonPhaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC800A1B2C3D4E5F6A7B8C9DA /* MoonPhaseView.swift */; };
+		B86219ECA5CA2FECCEE30A0AE /* WeatherBar/App/PopoverPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3B6A1109F47FB9BBB5F6F0A /* WeatherBar/App/PopoverPanel.swift */; };
+		BA6445EB5C39DAB7CBD2D4912 /* WeatherBar/App/StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9BC361EEDB5DBDB6B558DC8 /* WeatherBar/App/StatusBarController.swift */; };
+		BFE40F72E56A75EE457A73D38 /* WeatherBar/App/WeatherBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A650467E92F5FC3ECDCB8F7F0 /* WeatherBar/App/WeatherBarApp.swift */; };
+		B484FCB1AB94FD9CBF1C05AE8 /* WeatherBar/Models/AirQualityModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA45A6A52E7AE0D3E47F83C0 /* WeatherBar/Models/AirQualityModels.swift */; };
+		BE9A9BEC5908160D57CFD53EF /* WeatherBar/Models/WeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB70DC2A602CDE6882F2DB5EE /* WeatherBar/Models/WeatherModels.swift */; };
+		B19E7C1FFAE2A8C4C9BBD78C0 /* WeatherBar/Services/AirQualityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29E9A45D652FD24C8A56B6BE /* WeatherBar/Services/AirQualityManager.swift */; };
+		BF609A9F3E1CFC11621DCD889 /* WeatherBar/Services/AirQualityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DD55EFB29C2C0E3EBF1115F /* WeatherBar/Services/AirQualityProvider.swift */; };
+		B2ED232EFB264CB550C567A30 /* WeatherBar/Services/AirparifProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B93ED51B28439F9D463997F /* WeatherBar/Services/AirparifProvider.swift */; };
+		B6F1D6F97BBE0DA70DA8B82D9 /* WeatherBar/Services/LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A203C57EF73C9B0457B40D516 /* WeatherBar/Services/LocationService.swift */; };
+		B0687A33DB06D591D1C461D9D /* WeatherBar/Services/MoonCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E8087D1D4EBAB479BBCC407 /* WeatherBar/Services/MoonCalculator.swift */; };
+		B4B174079B5B6A196D0834A17 /* WeatherBar/Services/OpenMeteoAirProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31E6B070E4295A46540E4BC6 /* WeatherBar/Services/OpenMeteoAirProvider.swift */; };
+		B9C4B2A033D26EC7132F8761E /* WeatherBar/Services/OpenMeteoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A432155493D526C09F5349C /* WeatherBar/Services/OpenMeteoProvider.swift */; };
+		B125D139E25984CA918815867 /* WeatherBar/Services/OpenWeatherMapProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3943566D7C611F71171B766 /* WeatherBar/Services/OpenWeatherMapProvider.swift */; };
+		B2266F6E8B81DCD8FB8C5C4C6 /* WeatherBar/Services/WeatherIconMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DCBD060A08E4188AA658059 /* WeatherBar/Services/WeatherIconMapper.swift */; };
+		BF114C572BEE519A926823968 /* WeatherBar/Services/WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15D103E73F7B6927CC9CA6C1 /* WeatherBar/Services/WeatherManager.swift */; };
+		B436F0B3CBB78A56540917632 /* WeatherBar/Services/WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62167B9AEEE7252EA9B85E90 /* WeatherBar/Services/WeatherProvider.swift */; };
+		BE5FE95F8F6E3D45CC83D59BA /* WeatherBar/Views/AirQualityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A320A6A896B1BC8A3F7910D69 /* WeatherBar/Views/AirQualityView.swift */; };
+		BD1676D0EAD4CF4261061BED5 /* WeatherBar/Views/MainWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4986512404C174CBC2FFD8F /* WeatherBar/Views/MainWeatherView.swift */; };
+		BD40F944804E7D9FCEA8CEFFC /* WeatherBar/Views/MoonPhaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1F71F303120CBA15FC96851 /* WeatherBar/Views/MoonPhaseView.swift */; };
+		BB4BB4058B6E4FB05B77F555B /* WeatherBar/Views/SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A909CBA078BF5961E0CE2E15E /* WeatherBar/Views/SettingsView.swift */; };
+		B0E1A5B08517E6AC3BBCB229E /* WeatherBar/Views/WeatherChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89C4348017CDBC18AF819B7B /* WeatherBar/Views/WeatherChartView.swift */; };
 		/* End PBXBuildFile section */
 
 		/* Begin PBXFileReference section */
+		AF3B6A1109F47FB9BBB5F6F0A /* WeatherBar/App/PopoverPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPanel.swift; sourceTree = "<group>"; };
+		AA9BC361EEDB5DBDB6B558DC8 /* WeatherBar/App/StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
+		A650467E92F5FC3ECDCB8F7F0 /* WeatherBar/App/WeatherBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherBarApp.swift; sourceTree = "<group>"; };
+		ABA45A6A52E7AE0D3E47F83C0 /* WeatherBar/Models/AirQualityModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityModels.swift; sourceTree = "<group>"; };
+		AB70DC2A602CDE6882F2DB5EE /* WeatherBar/Models/WeatherModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModels.swift; sourceTree = "<group>"; };
+		A29E9A45D652FD24C8A56B6BE /* WeatherBar/Services/AirQualityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityManager.swift; sourceTree = "<group>"; };
+		A3DD55EFB29C2C0E3EBF1115F /* WeatherBar/Services/AirQualityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityProvider.swift; sourceTree = "<group>"; };
+		A9B93ED51B28439F9D463997F /* WeatherBar/Services/AirparifProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirparifProvider.swift; sourceTree = "<group>"; };
+		A203C57EF73C9B0457B40D516 /* WeatherBar/Services/LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		A8E8087D1D4EBAB479BBCC407 /* WeatherBar/Services/MoonCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonCalculator.swift; sourceTree = "<group>"; };
+		A31E6B070E4295A46540E4BC6 /* WeatherBar/Services/OpenMeteoAirProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMeteoAirProvider.swift; sourceTree = "<group>"; };
+		A6A432155493D526C09F5349C /* WeatherBar/Services/OpenMeteoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMeteoProvider.swift; sourceTree = "<group>"; };
+		AB3943566D7C611F71171B766 /* WeatherBar/Services/OpenWeatherMapProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherMapProvider.swift; sourceTree = "<group>"; };
+		A3DCBD060A08E4188AA658059 /* WeatherBar/Services/WeatherIconMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIconMapper.swift; sourceTree = "<group>"; };
+		A15D103E73F7B6927CC9CA6C1 /* WeatherBar/Services/WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
+		A62167B9AEEE7252EA9B85E90 /* WeatherBar/Services/WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
+		A320A6A896B1BC8A3F7910D69 /* WeatherBar/Views/AirQualityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityView.swift; sourceTree = "<group>"; };
+		AF4986512404C174CBC2FFD8F /* WeatherBar/Views/MainWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherView.swift; sourceTree = "<group>"; };
+		AF1F71F303120CBA15FC96851 /* WeatherBar/Views/MoonPhaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonPhaseView.swift; sourceTree = "<group>"; };
+		A909CBA078BF5961E0CE2E15E /* WeatherBar/Views/SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A89C4348017CDBC18AF819B7B /* WeatherBar/Views/WeatherChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherChartView.swift; sourceTree = "<group>"; };
+		A1000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info.plist"; sourceTree = "<group>"; };
 		E0000001 /* WeatherBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		AF3B6A1109F47FB9BBB5F6F0A /* PopoverPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPanel.swift; sourceTree = "<group>"; };
-		AA9BC361EEDB5DBDB6B558DC8 /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
-		A650467E92F5FC3ECDCB8F7F0 /* WeatherBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherBarApp.swift; sourceTree = "<group>"; };
-		AB70DC2A602CDE6882F2DB5EE /* WeatherModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModels.swift; sourceTree = "<group>"; };
-		A203C57EF73C9B0457B40D516 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		AB3943566D7C611F71171B766 /* OpenWeatherMapProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherMapProvider.swift; sourceTree = "<group>"; };
-		A3DCBD060A08E4188AA658059 /* WeatherIconMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIconMapper.swift; sourceTree = "<group>"; };
-		A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
-		A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
-		AC1234567890ABCDEF123456 /* OpenMeteoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMeteoProvider.swift; sourceTree = "<group>"; };
-		A100A1B2C3D4E5F6A7B8C9D0 /* AirQualityModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityModels.swift; sourceTree = "<group>"; };
-		A200A1B2C3D4E5F6A7B8C9D0 /* AirQualityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityProvider.swift; sourceTree = "<group>"; };
-		A300A1B2C3D4E5F6A7B8C9D0 /* OpenMeteoAirProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMeteoAirProvider.swift; sourceTree = "<group>"; };
-		A400A1B2C3D4E5F6A7B8C9D0 /* AirparifProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirparifProvider.swift; sourceTree = "<group>"; };
-		A500A1B2C3D4E5F6A7B8C9D0 /* AirQualityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityManager.swift; sourceTree = "<group>"; };
-		A600A1B2C3D4E5F6A7B8C9D0 /* AirQualityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityView.swift; sourceTree = "<group>"; };
-		AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherView.swift; sourceTree = "<group>"; };
-		A909CBA078BF5961E0CE2E15E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherChartView.swift; sourceTree = "<group>"; };
-		AC700A1B2C3D4E5F6A7B8C9DA /* MoonCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonCalculator.swift; sourceTree = "<group>"; };
-		AC800A1B2C3D4E5F6A7B8C9DA /* MoonPhaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonPhaseView.swift; sourceTree = "<group>"; };
-		A1000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		AE0A55EF00001234567890AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = WeatherBar/Assets.xcassets; sourceTree = SOURCE_ROOT; name = Assets.xcassets; };
 		/* End PBXFileReference section */
 
 		/* Begin PBXGroup section */
-		E0000010 /* Products */ = {
+		C0000001 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				E0000001 /* WeatherBar.app */,
 			);
 			name = Products;
+			path = "";
 			sourceTree = "<group>";
 		};
-		E0000011 /* WeatherBar */ = {
+		C0000002 /* WeatherBar */ = {
 			isa = PBXGroup;
 			children = (
-				E0000012 /* App */,
-				E0000013 /* Models */,
-				E0000014 /* Services */,
-				E0000015 /* Views */,
-				E0000016 /* Resources */,
-				E0000010 /* Products */,
+				C0000003 /* App */,
+				C0000004 /* Models */,
+				C0000005 /* Services */,
+				C0000006 /* Views */,
+				C0000007 /* Resources */,
 			);
 			name = WeatherBar;
+			path = ".";
 			sourceTree = "<group>";
 		};
-		E0000012 /* App */ = {
+		C0000003 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				AF3B6A1109F47FB9BBB5F6F0A /* PopoverPanel.swift */,
-				AA9BC361EEDB5DBDB6B558DC8 /* StatusBarController.swift */,
-				A650467E92F5FC3ECDCB8F7F0 /* WeatherBarApp.swift */,
+				AF3B6A1109F47FB9BBB5F6F0A /* WeatherBar/App/PopoverPanel.swift */,
+				AA9BC361EEDB5DBDB6B558DC8 /* WeatherBar/App/StatusBarController.swift */,
+				A650467E92F5FC3ECDCB8F7F0 /* WeatherBar/App/WeatherBarApp.swift */,
 			);
 			name = App;
-			path = WeatherBar/App;
+			path = "WeatherBar/App";
 			sourceTree = "<group>";
 		};
-		E0000013 /* Models */ = {
+		C0000004 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A100A1B2C3D4E5F6A7B8C9D0 /* AirQualityModels.swift */,
-				AB70DC2A602CDE6882F2DB5EE /* WeatherModels.swift */,
+				ABA45A6A52E7AE0D3E47F83C0 /* WeatherBar/Models/AirQualityModels.swift */,
+				AB70DC2A602CDE6882F2DB5EE /* WeatherBar/Models/WeatherModels.swift */,
 			);
 			name = Models;
-			path = WeatherBar/Models;
+			path = "WeatherBar/Models";
 			sourceTree = "<group>";
 		};
-		E0000014 /* Services */ = {
+		C0000005 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				A400A1B2C3D4E5F6A7B8C9D0 /* AirparifProvider.swift */,
-				A500A1B2C3D4E5F6A7B8C9D0 /* AirQualityManager.swift */,
-				A200A1B2C3D4E5F6A7B8C9D0 /* AirQualityProvider.swift */,
-				A203C57EF73C9B0457B40D516 /* LocationService.swift */,
-				A300A1B2C3D4E5F6A7B8C9D0 /* OpenMeteoAirProvider.swift */,
-				AB3943566D7C611F71171B766 /* OpenWeatherMapProvider.swift */,
-				AC1234567890ABCDEF123456 /* OpenMeteoProvider.swift */,
-				A3DCBD060A08E4188AA658059 /* WeatherIconMapper.swift */,
-				A15D103E73F7B6927CC9CA6C1 /* WeatherManager.swift */,
-				A62167B9AEEE7252EA9B85E90 /* WeatherProvider.swift */,
-				AC700A1B2C3D4E5F6A7B8C9DA /* MoonCalculator.swift */,
+				A29E9A45D652FD24C8A56B6BE /* WeatherBar/Services/AirQualityManager.swift */,
+				A3DD55EFB29C2C0E3EBF1115F /* WeatherBar/Services/AirQualityProvider.swift */,
+				A9B93ED51B28439F9D463997F /* WeatherBar/Services/AirparifProvider.swift */,
+				A203C57EF73C9B0457B40D516 /* WeatherBar/Services/LocationService.swift */,
+				A8E8087D1D4EBAB479BBCC407 /* WeatherBar/Services/MoonCalculator.swift */,
+				A31E6B070E4295A46540E4BC6 /* WeatherBar/Services/OpenMeteoAirProvider.swift */,
+				A6A432155493D526C09F5349C /* WeatherBar/Services/OpenMeteoProvider.swift */,
+				AB3943566D7C611F71171B766 /* WeatherBar/Services/OpenWeatherMapProvider.swift */,
+				A3DCBD060A08E4188AA658059 /* WeatherBar/Services/WeatherIconMapper.swift */,
+				A15D103E73F7B6927CC9CA6C1 /* WeatherBar/Services/WeatherManager.swift */,
+				A62167B9AEEE7252EA9B85E90 /* WeatherBar/Services/WeatherProvider.swift */,
 			);
 			name = Services;
-			path = WeatherBar/Services;
+			path = "WeatherBar/Services";
 			sourceTree = "<group>";
 		};
-		E0000015 /* Views */ = {
+		C0000006 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A600A1B2C3D4E5F6A7B8C9D0 /* AirQualityView.swift */,
-				AF4986512404C174CBC2FFD8F /* MainWeatherView.swift */,
-				AC800A1B2C3D4E5F6A7B8C9DA /* MoonPhaseView.swift */,
-				A909CBA078BF5961E0CE2E15E /* SettingsView.swift */,
-				A89C4348017CDBC18AF819B7B /* WeatherChartView.swift */,
+				A320A6A896B1BC8A3F7910D69 /* WeatherBar/Views/AirQualityView.swift */,
+				AF4986512404C174CBC2FFD8F /* WeatherBar/Views/MainWeatherView.swift */,
+				AF1F71F303120CBA15FC96851 /* WeatherBar/Views/MoonPhaseView.swift */,
+				A909CBA078BF5961E0CE2E15E /* WeatherBar/Views/SettingsView.swift */,
+				A89C4348017CDBC18AF819B7B /* WeatherBar/Views/WeatherChartView.swift */,
 			);
 			name = Views;
-			path = WeatherBar/Views;
+			path = "WeatherBar/Views";
 			sourceTree = "<group>";
 		};
-		E0000016 /* Resources */ = {
+		C0000007 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				A1000001 /* Info.plist */,
 				AE0A55EF00001234567890AB /* Assets.xcassets */,
 			);
 			name = Resources;
+			path = ".";
 			sourceTree = "<group>";
 		};
 		/* End PBXGroup section */
@@ -149,9 +151,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E0000031 /* Build configuration list for PBXNativeTarget "WeatherBar" */;
 			buildPhases = (
-				E0000040 /* Sources */,
-				E0000041 /* Frameworks */,
-				E0000042 /* Resources */,
+				D0000001 /* Sources */,
+				D0000002 /* Frameworks */,
+				D0000003 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -164,185 +166,69 @@
 		};
 		/* End PBXNativeTarget section */
 
-		/* Begin PBXProject section */
-		E0000000 /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				LastUpgradeCheck = 1500;
-				ORGANIZATIONNAME = WeatherBar;
-			};
-			buildConfigurationList = E0000030 /* Build configuration list for PBXProject "WeatherBar" */;
-			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
-			mainGroup = E0000011;
-			productRefGroup = E0000010 /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
-			targets = (
-				E0000020 /* WeatherBar */,
-			);
-		};
-		/* End PBXProject section */
-
 		/* Begin PBXSourcesBuildPhase section */
-		E0000040 /* Sources */ = {
+		D0000001 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
-			files = (
-				B86219ECA5CA2FECCEE30A0AE /* PopoverPanel.swift in Sources */,
-				BA6445EB5C39DAB7CBD2D4912 /* StatusBarController.swift in Sources */,
-				BFE40F72E56A75EE457A73D38 /* WeatherBarApp.swift in Sources */,
-				BE9A9BEC5908160D57CFD53EF /* WeatherModels.swift in Sources */,
-				B6F1D6F97BBE0DA70DA8B82D9 /* LocationService.swift in Sources */,
-				B125D139E25984CA918815867 /* OpenWeatherMapProvider.swift in Sources */,
-				BC1234567890ABCDEF123456 /* OpenMeteoProvider.swift in Sources */,
-				B100A1B2C3D4E5F6A7B8C9D0 /* AirQualityModels.swift in Sources */,
-				B200A1B2C3D4E5F6A7B8C9D0 /* AirQualityProvider.swift in Sources */,
-				B300A1B2C3D4E5F6A7B8C9D0 /* OpenMeteoAirProvider.swift in Sources */,
-				B400A1B2C3D4E5F6A7B8C9D0 /* AirparifProvider.swift in Sources */,
-				B500A1B2C3D4E5F6A7B8C9D0 /* AirQualityManager.swift in Sources */,
-				B600A1B2C3D4E5F6A7B8C9D0 /* AirQualityView.swift in Sources */,
-				B2266F6E8B81DCD8FB8C5C4C6 /* WeatherIconMapper.swift in Sources */,
-				BF114C572BEE519A926823968 /* WeatherManager.swift in Sources */,
-				B436F0B3CBB78A56540917632 /* WeatherProvider.swift in Sources */,
-				BD1676D0EAD4CF4261061BED5 /* MainWeatherView.swift in Sources */,
-				BB4BB4058B6E4FB05B77F555B /* SettingsView.swift in Sources */,
-				B0E1A5B08517E6AC3BBCB229E /* WeatherChartView.swift in Sources */,
-				BC700A1B2C3D4E5F6A7B8C9DA /* MoonCalculator.swift in Sources */,
-				BC800A1B2C3D4E5F6A7B8C9DA /* MoonPhaseView.swift in Sources */,
-			);
 			runOnlyForDeploymentPostprocessing = 0;
+			files = (
+				B86219ECA5CA2FECCEE30A0AE /* WeatherBar/App/PopoverPanel.swift in Sources */,
+				BA6445EB5C39DAB7CBD2D4912 /* WeatherBar/App/StatusBarController.swift in Sources */,
+				BFE40F72E56A75EE457A73D38 /* WeatherBar/App/WeatherBarApp.swift in Sources */,
+				B484FCB1AB94FD9CBF1C05AE8 /* WeatherBar/Models/AirQualityModels.swift in Sources */,
+				BE9A9BEC5908160D57CFD53EF /* WeatherBar/Models/WeatherModels.swift in Sources */,
+				B19E7C1FFAE2A8C4C9BBD78C0 /* WeatherBar/Services/AirQualityManager.swift in Sources */,
+				BF609A9F3E1CFC11621DCD889 /* WeatherBar/Services/AirQualityProvider.swift in Sources */,
+				B2ED232EFB264CB550C567A30 /* WeatherBar/Services/AirparifProvider.swift in Sources */,
+				B6F1D6F97BBE0DA70DA8B82D9 /* WeatherBar/Services/LocationService.swift in Sources */,
+				B0687A33DB06D591D1C461D9D /* WeatherBar/Services/MoonCalculator.swift in Sources */,
+				B4B174079B5B6A196D0834A17 /* WeatherBar/Services/OpenMeteoAirProvider.swift in Sources */,
+				B9C4B2A033D26EC7132F8761E /* WeatherBar/Services/OpenMeteoProvider.swift in Sources */,
+				B125D139E25984CA918815867 /* WeatherBar/Services/OpenWeatherMapProvider.swift in Sources */,
+				B2266F6E8B81DCD8FB8C5C4C6 /* WeatherBar/Services/WeatherIconMapper.swift in Sources */,
+				BF114C572BEE519A926823968 /* WeatherBar/Services/WeatherManager.swift in Sources */,
+				B436F0B3CBB78A56540917632 /* WeatherBar/Services/WeatherProvider.swift in Sources */,
+				BE5FE95F8F6E3D45CC83D59BA /* WeatherBar/Views/AirQualityView.swift in Sources */,
+				BD1676D0EAD4CF4261061BED5 /* WeatherBar/Views/MainWeatherView.swift in Sources */,
+				BD40F944804E7D9FCEA8CEFFC /* WeatherBar/Views/MoonPhaseView.swift in Sources */,
+				BB4BB4058B6E4FB05B77F555B /* WeatherBar/Views/SettingsView.swift in Sources */,
+				B0E1A5B08517E6AC3BBCB229E /* WeatherBar/Views/WeatherChartView.swift in Sources */,
+			);
 		};
 		/* End PBXSourcesBuildPhase section */
 
 		/* Begin PBXFrameworksBuildPhase section */
-		E0000041 /* Frameworks */ = {
+		D0000002 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
+			runOnlyForDeploymentPostprocessing = 0;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		/* End PBXFrameworksBuildPhase section */
 
 		/* Begin PBXResourcesBuildPhase section */
-		E0000042 /* Resources */ = {
+		D0000003 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
+			runOnlyForDeploymentPostprocessing = 0;
 			files = (
 				BE0A55EF00001234567890AB /* Assets.xcassets in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		/* End PBXResourcesBuildPhase section */
 
-		/* Begin XCBuildConfiguration section */
-		E0000032 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		E0000033 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-			};
-			name = Release;
-		};
-		E0000034 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.local.WeatherBar;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		E0000035 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.local.WeatherBar;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		/* End XCBuildConfiguration section */
-
 		/* Begin XCConfigurationList section */
-		E0000030 /* Build configuration list for PBXProject "WeatherBar" */ = {
+		E0000031 /* Build configuration list for PBXNativeTarget "WeatherBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E0000032 /* Debug */,
-				E0000033 /* Release */,
+				E0000034 /* Debug */,
+				E0000035 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E0000031 /* Build configuration list for PBXNativeTarget "WeatherBar" */ = {
+		E0000030 /* Build configuration list for PBXProject "WeatherBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E0000034 /* Debug */,
@@ -353,6 +239,72 @@
 		};
 		/* End XCConfigurationList section */
 
+		/* Begin XCBuildConfiguration section */
+		E0000034 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.WeatherBar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E0000035 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.WeatherBar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		/* End XCBuildConfiguration section */
+
+		C0000000 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = E0000030 /* Build configuration list for PBXProject "WeatherBar" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C0000002 /* WeatherBar */;
+			productRefGroup = C0000001 /* Products */;
+			targets = (
+				E0000020 /* WeatherBar */,
+			);
+		};
 	};
-	rootObject = E0000000 /* Project object */;
+	rootObject = C0000000 /* Project object */;
 }
