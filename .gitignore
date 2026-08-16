@@ -4,6 +4,10 @@
 
 ## User settings
 xcuserdata/
+DerivedData/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
 
 ## Obj-C/Swift specific
 *.hmap
@@ -30,6 +34,7 @@ playground.xcworkspace
 # .swiftpm
 
 .build/
+.swiftpm/
 
 # CocoaPods
 #
@@ -59,6 +64,26 @@ Carthage/Build/
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
-fastlane/test_output
-build/**
-dist/**
+fastlane/test_output/
+
+# macOS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Build and distribution artifacts
+build/
+dist/
+*.app
+*.pkg
+*.dmg
+
+# Logs, temporary files and local configuration
+*.log
+*.tmp
+*.swp
+*~
+.env
+.env.*
+!.env.example
+.claude/settings.local.json

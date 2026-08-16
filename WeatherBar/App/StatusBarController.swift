@@ -25,7 +25,10 @@ class StatusBarController {
         let hostingController = NSHostingController(rootView: contentView)
 
         self.panel = PopoverPanel(
-            contentRect: NSRect(x: 0, y: 0, width: 350, height: 600),
+            // Keep the AppKit hit-testing area in sync with MainWeatherView.
+            // Content drawn outside this rect remains visible but cannot
+            // receive mouse events.
+            contentRect: NSRect(x: 0, y: 0, width: 350, height: 680),
             contentViewController: hostingController
         )
 
@@ -84,8 +87,13 @@ class StatusBarController {
     }
 
     private func setupEventMonitor() {
-        eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
-            if let self = self, self.panel.isVisible {
+        eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
+            guard let self, self.panel.isVisible else { return }
+
+            // A non-activating NSPanel can occasionally cause one of its own
+            // clicks to reach the global monitor. Only dismiss when the mouse
+            // is genuinely outside the panel's screen-space frame.
+            if !self.panel.frame.contains(NSEvent.mouseLocation) {
                 self.hidePanel()
             }
         }

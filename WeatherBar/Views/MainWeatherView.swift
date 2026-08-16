@@ -13,13 +13,275 @@ struct WeatherIcon: View {
     }
 }
 
+// MARK: - Animated weather background
+
+private struct WeatherSkyGradient: View {
+    let condition: WeatherCondition
+    let isDay: Bool
+
+    private var colors: [Color] {
+        if !isDay {
+            return [
+                Color(red: 0.035, green: 0.065, blue: 0.16),
+                Color(red: 0.10, green: 0.16, blue: 0.29)
+            ]
+        }
+
+        switch condition {
+        case .clear:
+            return [Color(red: 0.25, green: 0.62, blue: 0.92), Color(red: 0.68, green: 0.86, blue: 0.98)]
+        case .cloudy, .atmosphere:
+            return [Color(red: 0.32, green: 0.45, blue: 0.56), Color(red: 0.62, green: 0.72, blue: 0.78)]
+        case .rain, .drizzle, .thunderstorm:
+            return [Color(red: 0.19, green: 0.31, blue: 0.40), Color(red: 0.43, green: 0.57, blue: 0.64)]
+        case .snow:
+            return [Color(red: 0.49, green: 0.62, blue: 0.72), Color(red: 0.80, green: 0.87, blue: 0.91)]
+        }
+    }
+
+    var body: some View {
+        LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
+    }
+}
+
+/// A lightweight, procedural scene driven by the current weather. Keeping it
+/// in SwiftUI avoids shipping large videos while still adapting to day/night.
+struct AnimatedWeatherBackground: View {
+    let weather: CurrentWeather
+    var moonPhase: Double? = nil
+    var conditionOverride: WeatherCondition? = nil
+    var isDayOverride: Bool? = nil
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    private var isDay: Bool {
+        if let isDayOverride { return isDayOverride }
+        let now = Date()
+        return now >= weather.sunrise && now <= weather.sunset
+    }
+
+    private var condition: WeatherCondition {
+        conditionOverride ?? weather.condition
+    }
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            TimelineView(.animation(minimumInterval: reduceMotion ? 1 : 1.0 / 30.0, paused: reduceMotion)) { timeline in
+                Canvas { context, size in
+                    let time = timeline.date.timeIntervalSinceReferenceDate
+                    drawSkyDetails(context: &context, size: size, time: time)
+                    drawClouds(context: &context, size: size, time: time)
+                    drawPrecipitation(context: &context, size: size, time: time)
+                }
+            }
+
+            if !isDay, condition == .clear, let moonPhase {
+                BackgroundMoon(phase: moonPhase)
+                    .frame(width: 72, height: 72)
+                    .padding(.top, 42)
+                    .padding(.trailing, 34)
+            }
+        }
+        .background(WeatherSkyGradient(condition: condition, isDay: isDay))
+        .overlay {
+            // A subtle veil keeps text readable without hiding the animation.
+            Rectangle().fill(.ultraThinMaterial).opacity(0.48)
+        }
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
+    }
+
+    private func drawSkyDetails(context: inout GraphicsContext, size: CGSize, time: TimeInterval) {
+        if isDay && condition == .clear {
+            let sun = CGRect(x: size.width * 0.68, y: 38, width: 90, height: 90)
+            context.fill(Path(ellipseIn: sun), with: .color(.yellow.opacity(0.24)))
+            context.fill(Path(ellipseIn: sun.insetBy(dx: 20, dy: 20)), with: .color(.yellow.opacity(0.55)))
+        } else if !isDay {
+            for i in 0..<24 {
+                let x = seeded(i, 3) * size.width
+                let y = seeded(i, 7) * size.height * 0.72
+                let twinkle = 0.25 + 0.35 * (0.5 + 0.5 * sin(time * 0.8 + Double(i)))
+                context.fill(Path(ellipseIn: CGRect(x: x, y: y, width: 1.6, height: 1.6)), with: .color(.white.opacity(twinkle)))
+            }
+        }
+
+        if condition == .thunderstorm {
+            let phase = time.truncatingRemainder(dividingBy: 7.0)
+            if phase < 0.10 || (phase > 0.22 && phase < 0.29) {
+                context.fill(Path(CGRect(origin: .zero, size: size)), with: .color(.white.opacity(0.25)))
+            }
+        }
+
+        if condition == .atmosphere {
+            for i in 0..<5 {
+                let drift = (time * (5 + Double(i))).truncatingRemainder(dividingBy: size.width + 180)
+                let rect = CGRect(x: drift - 180, y: size.height * (0.25 + Double(i) * 0.13), width: 230, height: 24)
+                context.fill(Path(roundedRect: rect, cornerRadius: 14), with: .color(.white.opacity(0.10)))
+            }
+        }
+    }
+
+    private func drawClouds(context: inout GraphicsContext, size: CGSize, time: TimeInterval) {
+        guard condition != .clear else { return }
+        let cloudCount = condition == .cloudy ? 7 : 5
+
+        for i in 0..<cloudCount {
+            let speed = 3.0 + seeded(i, 11) * 5.0
+            let rawX = (seeded(i, 13) * (size.width + 190) + time * speed)
+                .truncatingRemainder(dividingBy: size.width + 190)
+            let x = rawX - 120
+            let y = 18 + seeded(i, 17) * size.height * 0.72
+            let scale = 0.65 + seeded(i, 19) * 0.75
+            let color = Color.white.opacity(isDay ? 0.10 : 0.06)
+
+            var cloud = Path()
+            cloud.addEllipse(in: CGRect(x: x, y: y + 18 * scale, width: 105 * scale, height: 34 * scale))
+            cloud.addEllipse(in: CGRect(x: x + 17 * scale, y: y + 5 * scale, width: 50 * scale, height: 47 * scale))
+            cloud.addEllipse(in: CGRect(x: x + 52 * scale, y: y, width: 58 * scale, height: 55 * scale))
+            context.fill(cloud, with: .color(color))
+        }
+    }
+
+    private func drawPrecipitation(context: inout GraphicsContext, size: CGSize, time: TimeInterval) {
+        switch condition {
+        case .rain, .drizzle, .thunderstorm:
+            let count = condition == .drizzle ? 45 : (condition == .thunderstorm ? 100 : 75)
+            let speed = condition == .drizzle ? 150.0 : 270.0
+            for i in 0..<count {
+                let x = seeded(i, 23) * (size.width + 50) - 20
+                let offset = seeded(i, 29) * size.height
+                let y = (offset + time * (speed + seeded(i, 31) * 90)).truncatingRemainder(dividingBy: size.height + 30) - 20
+                var drop = Path()
+                drop.move(to: CGPoint(x: x, y: y))
+                drop.addLine(to: CGPoint(x: x - 5, y: y + (condition == .drizzle ? 9 : 17)))
+                context.stroke(drop, with: .color(.white.opacity(0.24 + seeded(i, 37) * 0.28)), lineWidth: 1)
+            }
+        case .snow:
+            for i in 0..<60 {
+                let fall = (seeded(i, 41) * size.height + time * (24 + seeded(i, 43) * 34))
+                    .truncatingRemainder(dividingBy: size.height + 16) - 8
+                let sway = sin(time * 0.7 + Double(i)) * 10
+                let x = seeded(i, 47) * size.width + sway
+                let diameter = 2.0 + seeded(i, 53) * 3.5
+                context.fill(
+                    Path(ellipseIn: CGRect(x: x, y: fall, width: diameter, height: diameter)),
+                    with: .color(.white.opacity(0.35 + seeded(i, 59) * 0.45))
+                )
+            }
+        default:
+            break
+        }
+    }
+
+    /// Deterministic pseudo-random value in 0...1, stable across redraws.
+    private func seeded(_ index: Int, _ salt: Int) -> Double {
+        let value = sin(Double(index * 127 + salt * 311)) * 43_758.5453
+        return value - floor(value)
+    }
+}
+
+/// Moon used in the weather scene: only the sunlit portion is drawn, leaving
+/// the unlit side fully transparent so no artificial dark disk is visible.
+private struct BackgroundMoon: View {
+    let phase: Double
+
+    var body: some View {
+        Canvas { context, size in
+            guard phase > 0.015, phase < 0.985 else { return }
+
+            let radius = min(size.width, size.height) / 2 - 1
+            let center = CGPoint(x: size.width / 2, y: size.height / 2)
+            let litShape = illuminatedPath(phase: phase, center: center, radius: radius)
+
+            context.fill(
+                litShape,
+                with: .radialGradient(
+                    Gradient(colors: [
+                        Color(red: 1.0, green: 0.98, blue: 0.82),
+                        Color(red: 0.78, green: 0.78, blue: 0.70)
+                    ]),
+                    center: CGPoint(x: center.x - radius * 0.12, y: center.y - radius * 0.16),
+                    startRadius: 0,
+                    endRadius: radius * 1.15
+                )
+            )
+        }
+        .accessibilityHidden(true)
+    }
+
+    private func illuminatedPath(phase: Double, center: CGPoint, radius: CGFloat) -> Path {
+        var path = Path()
+        let steps = 80
+        let waxing = phase < 0.5
+        let normalized = waxing ? phase / 0.5 : (phase - 0.5) / 0.5
+        let terminatorX = radius * cos(normalized * .pi)
+
+        path.move(to: CGPoint(x: center.x, y: center.y - radius))
+
+        // Outer edge of the illuminated side, from top to bottom.
+        for i in 1...steps {
+            let angle = waxing
+                ? (-.pi / 2 + .pi * Double(i) / Double(steps))
+                : (-.pi / 2 - .pi * Double(i) / Double(steps))
+            path.addLine(to: CGPoint(
+                x: center.x + radius * cos(angle),
+                y: center.y + radius * sin(angle)
+            ))
+        }
+
+        // Elliptical day/night terminator, from bottom back to top.
+        for i in 0...steps {
+            let angle = .pi / 2 - .pi * Double(i) / Double(steps)
+            path.addLine(to: CGPoint(
+                x: center.x + terminatorX * cos(angle),
+                y: center.y + radius * sin(angle)
+            ))
+        }
+
+        path.closeSubpath()
+        return path
+    }
+}
+
 struct MainWeatherView: View {
     @ObservedObject var settings: AppSettings
     @ObservedObject var weatherManager: WeatherManager
     @ObservedObject var airQualityManager: AirQualityManager
 
+    private let backgroundPreview = BackgroundPreview.fromCommandLine
+
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack {
+            VStack(spacing: 0) {
+                Group {
+                    if let current = weatherManager.weather?.current {
+                        AnimatedWeatherBackground(
+                            weather: current,
+                            moonPhase: currentMoonPhase,
+                            conditionOverride: backgroundPreview.condition,
+                            isDayOverride: backgroundPreview.isDay
+                        )
+                    } else {
+                        Rectangle().fill(.thickMaterial)
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                // Keep animated drawing away from the AppKit panel edge and
+                // provide an opaque hit-testing surface for footer controls.
+                Rectangle()
+                    .fill(.clear)
+                    .frame(height: 49)
+            }
+            .allowsHitTesting(false)
+
+            // Ensures empty/translucent areas still belong to this window, so
+            // mouse-wheel and trackpad events cannot reach the app beneath it.
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture { }
+
+            VStack(spacing: 0) {
 
             // MARK: Header — nom de la ville
             if let city = settings.selectedLocation?.name {
@@ -224,6 +486,8 @@ struct MainWeatherView: View {
                 } label: {
                     Image(systemName: "gear")
                         .font(.system(size: 14))
+                        .frame(width: 32, height: 28)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .help("Réglages")
@@ -235,17 +499,79 @@ struct MainWeatherView: View {
                 } label: {
                     Image(systemName: "power")
                         .font(.system(size: 14))
+                        .frame(width: 32, height: 28)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .help("Quitter WeatherBar")
             }
             .padding(.horizontal, 16)
-            .padding(.vertical, 10)
+            .frame(height: 48)
+            .background {
+                ZStack {
+                    if let current = weatherManager.weather?.current {
+                        WeatherSkyGradient(
+                            condition: backgroundPreview.condition ?? current.condition,
+                            isDay: backgroundPreview.isDay ?? isCurrentWeatherDay(current)
+                        )
+
+                        // Match AnimatedWeatherBackground's readability veil.
+                        Rectangle()
+                            .fill(.ultraThinMaterial)
+                            .opacity(0.48)
+                    } else {
+                        Rectangle().fill(.thickMaterial)
+                    }
+                }
+            }
+            .contentShape(Rectangle())
+            .onTapGesture { }
             .foregroundColor(.secondary)
+            .zIndex(1)
+        }
         }
         .frame(width: 350, height: 680)
-        .background(.thickMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+    }
+
+    private var currentMoonPhase: Double? {
+        guard let coordinate = settings.selectedLocation?.coordinate else { return nil }
+        return MoonCalculator.phaseInfo(
+            for: Date(),
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude
+        ).phase
+    }
+
+    private func isCurrentWeatherDay(_ weather: CurrentWeather) -> Bool {
+        let now = Date()
+        return now >= weather.sunrise && now <= weather.sunset
+    }
+}
+
+/// Debug launch arguments used by `scripts/build.sh --background …`.
+/// Unknown or absent values deliberately fall back to live weather.
+private struct BackgroundPreview {
+    let condition: WeatherCondition?
+    let isDay: Bool?
+
+    static var fromCommandLine: BackgroundPreview {
+        #if DEBUG
+        let arguments = ProcessInfo.processInfo.arguments
+        var condition: WeatherCondition?
+        var isDay: Bool?
+
+        if let index = arguments.firstIndex(of: "--weather-background"),
+           arguments.indices.contains(index + 1) {
+            condition = WeatherCondition(rawValue: arguments[index + 1])
+        }
+        if arguments.contains("--weather-day") { isDay = true }
+        if arguments.contains("--weather-night") { isDay = false }
+
+        return BackgroundPreview(condition: condition, isDay: isDay)
+        #else
+        return BackgroundPreview(condition: nil, isDay: nil)
+        #endif
     }
 }
 

@@ -20,6 +20,7 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
         root_dir / "WeatherBar" / "Services" / "AirQualityManager.swift",
         root_dir / "WeatherBar" / "Services" / "AirQualityProvider.swift",
         root_dir / "WeatherBar" / "Services" / "LocationService.swift",
+        root_dir / "WeatherBar" / "Services" / "MoonCalculator.swift",
         root_dir / "WeatherBar" / "Services" / "OpenMeteoAirProvider.swift",
         root_dir / "WeatherBar" / "Services" / "OpenMeteoProvider.swift",
         root_dir / "WeatherBar" / "Services" / "OpenWeatherMapProvider.swift",
@@ -28,6 +29,7 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
         root_dir / "WeatherBar" / "Services" / "WeatherProvider.swift",
         root_dir / "WeatherBar" / "Views" / "AirQualityView.swift",
         root_dir / "WeatherBar" / "Views" / "MainWeatherView.swift",
+        root_dir / "WeatherBar" / "Views" / "MoonPhaseView.swift",
         root_dir / "WeatherBar" / "Views" / "SettingsView.swift",
         root_dir / "WeatherBar" / "Views" / "WeatherChartView.swift",
     ]
@@ -89,6 +91,7 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     ]
 
     lines.append("\t\t/* Begin PBXBuildFile section */")
+    lines.append("\t\tBE0A55EF00001234567890AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE0A55EF00001234567890AB /* Assets.xcassets */; };")
     for rel_path in sorted(build_files):
         build_id = build_files[rel_path]
         file_id = file_refs[rel_path]
@@ -99,19 +102,23 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("\t\t/* Begin PBXFileReference section */")
     for rel_path in sorted(file_refs):
         file_id = file_refs[rel_path]
+        filename = Path(rel_path).name
         lines.append(
-            f"\t\t{file_id} /* {rel_path} */ = {{isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = {rel_path}; sourceTree = \"<group>\"; }};"
+            f"\t\t{file_id} /* {rel_path} */ = {{isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = {filename}; sourceTree = \"<group>\"; }};"
         )
     lines.append(
         '\t\tA1000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info.plist"; sourceTree = "<group>"; };'
     )
+    lines.append('\t\tE0000001 /* WeatherBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherBar.app; sourceTree = BUILT_PRODUCTS_DIR; };')
+    lines.append('\t\tAE0A55EF00001234567890AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = WeatherBar/Assets.xcassets; sourceTree = SOURCE_ROOT; name = Assets.xcassets; };')
     lines.append("\t\t/* End PBXFileReference section */")
     lines.append("")
 
     lines.append("\t\t/* Begin PBXGroup section */")
     lines.append("\t\tC0000001 /* Products */ = {")
+    lines.append("\t\t\tisa = PBXGroup;")
     lines.append("\t\t\tchildren = (")
-    lines.append("\t\t\t\tC0000002 /* WeatherBar.app */,")
+    lines.append("\t\t\t\tE0000001 /* WeatherBar.app */,")
     lines.append("\t\t\t);")
     lines.append("\t\t\tname = Products;")
     lines.append("\t\t\tpath = \"\";")
@@ -119,6 +126,7 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("\t\t};")
 
     lines.append("\t\tC0000002 /* WeatherBar */ = {")
+    lines.append("\t\t\tisa = PBXGroup;")
     lines.append("\t\t\tchildren = (")
     lines.append("\t\t\t\tC0000003 /* App */,")
     lines.append("\t\t\t\tC0000004 /* Models */,")
@@ -132,6 +140,7 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("\t\t};")
 
     lines.append("\t\tC0000003 /* App */ = {")
+    lines.append("\t\t\tisa = PBXGroup;")
     lines.append("\t\t\tchildren = (")
     lines.extend(f"\t\t\t\t{entry}," for entry in app_group_children)
     lines.append("\t\t\t);")
@@ -141,6 +150,7 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("\t\t};")
 
     lines.append("\t\tC0000004 /* Models */ = {")
+    lines.append("\t\t\tisa = PBXGroup;")
     lines.append("\t\t\tchildren = (")
     lines.extend(f"\t\t\t\t{entry}," for entry in model_group_children)
     lines.append("\t\t\t);")
@@ -150,6 +160,7 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("\t\t};")
 
     lines.append("\t\tC0000005 /* Services */ = {")
+    lines.append("\t\t\tisa = PBXGroup;")
     lines.append("\t\t\tchildren = (")
     lines.extend(f"\t\t\t\t{entry}," for entry in service_group_children)
     lines.append("\t\t\t);")
@@ -159,6 +170,7 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("\t\t};")
 
     lines.append("\t\tC0000006 /* Views */ = {")
+    lines.append("\t\t\tisa = PBXGroup;")
     lines.append("\t\t\tchildren = (")
     lines.extend(f"\t\t\t\t{entry}," for entry in view_group_children)
     lines.append("\t\t\t);")
@@ -168,8 +180,10 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("\t\t};")
 
     lines.append("\t\tC0000007 /* Resources */ = {")
+    lines.append("\t\t\tisa = PBXGroup;")
     lines.append("\t\t\tchildren = (")
     lines.append("\t\t\t\tA1000001 /* Info.plist */,")
+    lines.append("\t\t\t\tAE0A55EF00001234567890AB /* Assets.xcassets */,")
     lines.append("\t\t\t);")
     lines.append("\t\t\tname = Resources;")
     lines.append("\t\t\tpath = \".\";")
@@ -179,8 +193,9 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("")
 
     lines.append("\t\t/* Begin PBXNativeTarget section */")
-    lines.append("\t\tC0000004 /* WeatherBar */ = {")
-    lines.append("\t\t\tbuildConfigurationList = C0000006 /* Build configuration list for PBXNativeTarget \"WeatherBar\" */;")
+    lines.append("\t\tE0000020 /* WeatherBar */ = {")
+    lines.append("\t\t\tisa = PBXNativeTarget;")
+    lines.append("\t\t\tbuildConfigurationList = E0000031 /* Build configuration list for PBXNativeTarget \"WeatherBar\" */;")
     lines.append("\t\t\tbuildPhases = (")
     lines.append("\t\t\t\tD0000001 /* Sources */,")
     lines.append("\t\t\t\tD0000002 /* Frameworks */,")
@@ -192,7 +207,7 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("\t\t\t);")
     lines.append("\t\t\tname = WeatherBar;")
     lines.append("\t\t\tproductName = WeatherBar;")
-    lines.append("\t\t\tproductReference = C0000002 /* WeatherBar.app */;")
+    lines.append("\t\t\tproductReference = E0000001 /* WeatherBar.app */;")
     lines.append("\t\t\tproductType = \"com.apple.product-type.application\";")
     lines.append("\t\t};")
     lines.append("\t\t/* End PBXNativeTarget section */")
@@ -200,6 +215,7 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
 
     lines.append("\t\t/* Begin PBXSourcesBuildPhase section */")
     lines.append("\t\tD0000001 /* Sources */ = {")
+    lines.append("\t\t\tisa = PBXSourcesBuildPhase;")
     lines.append("\t\t\tbuildActionMask = 2147483647;")
     lines.append("\t\t\trunOnlyForDeploymentPostprocessing = 0;")
     lines.append("\t\t\tfiles = (")
@@ -207,46 +223,48 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
         build_id = build_files[rel_path]
         lines.append(f"\t\t\t\t{build_id} /* {rel_path} in Sources */,")
     lines.append("\t\t\t);")
-    lines.append("\t\t\tname = Sources;")
     lines.append("\t\t};")
     lines.append("\t\t/* End PBXSourcesBuildPhase section */")
     lines.append("")
 
     lines.append("\t\t/* Begin PBXFrameworksBuildPhase section */")
     lines.append("\t\tD0000002 /* Frameworks */ = {")
+    lines.append("\t\t\tisa = PBXFrameworksBuildPhase;")
     lines.append("\t\t\tbuildActionMask = 2147483647;")
     lines.append("\t\t\trunOnlyForDeploymentPostprocessing = 0;")
     lines.append("\t\t\tfiles = (")
     lines.append("\t\t\t);")
-    lines.append("\t\t\tname = Frameworks;")
     lines.append("\t\t};")
     lines.append("\t\t/* End PBXFrameworksBuildPhase section */")
     lines.append("")
 
     lines.append("\t\t/* Begin PBXResourcesBuildPhase section */")
     lines.append("\t\tD0000003 /* Resources */ = {")
+    lines.append("\t\t\tisa = PBXResourcesBuildPhase;")
     lines.append("\t\t\tbuildActionMask = 2147483647;")
     lines.append("\t\t\trunOnlyForDeploymentPostprocessing = 0;")
     lines.append("\t\t\tfiles = (")
+    lines.append("\t\t\t\tBE0A55EF00001234567890AB /* Assets.xcassets in Resources */," )
     lines.append("\t\t\t);")
-    lines.append("\t\t\tname = Resources;")
     lines.append("\t\t};")
     lines.append("\t\t/* End PBXResourcesBuildPhase section */")
     lines.append("")
 
     lines.append("\t\t/* Begin XCConfigurationList section */")
-    lines.append("\t\tC0000006 /* Build configuration list for PBXNativeTarget \"WeatherBar\" */ = {")
+    lines.append("\t\tE0000031 /* Build configuration list for PBXNativeTarget \"WeatherBar\" */ = {")
+    lines.append("\t\t\tisa = XCConfigurationList;")
     lines.append("\t\t\tbuildConfigurations = (")
-    lines.append("\t\t\t\tC0000007 /* Debug */,")
-    lines.append("\t\t\t\tC0000008 /* Release */,")
+    lines.append("\t\t\t\tE0000034 /* Debug */,")
+    lines.append("\t\t\t\tE0000035 /* Release */,")
     lines.append("\t\t\t);")
     lines.append("\t\t\tdefaultConfigurationIsVisible = 0;")
     lines.append("\t\t\tdefaultConfigurationName = Release;")
     lines.append("\t\t};")
-    lines.append("\t\tC0000005 /* Build configuration list for PBXProject \"WeatherBar\" */ = {")
+    lines.append("\t\tE0000030 /* Build configuration list for PBXProject \"WeatherBar\" */ = {")
+    lines.append("\t\t\tisa = XCConfigurationList;")
     lines.append("\t\t\tbuildConfigurations = (")
-    lines.append("\t\t\t\tC0000007 /* Debug */,")
-    lines.append("\t\t\t\tC0000008 /* Release */,")
+    lines.append("\t\t\t\tE0000034 /* Debug */,")
+    lines.append("\t\t\t\tE0000035 /* Release */,")
     lines.append("\t\t\t);")
     lines.append("\t\t\tdefaultConfigurationIsVisible = 0;")
     lines.append("\t\t\tdefaultConfigurationName = Release;")
@@ -255,13 +273,15 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("")
 
     lines.append("\t\t/* Begin XCBuildConfiguration section */")
-    lines.append("\t\tC0000007 /* Debug */ = {")
+    lines.append("\t\tE0000034 /* Debug */ = {")
+    lines.append("\t\t\tisa = XCBuildConfiguration;")
     lines.append("\t\t\tbuildSettings = {")
     lines.append("\t\t\t\tALWAYS_SEARCH_USER_PATHS = NO;")
     lines.append("\t\t\t\tCLANG_ENABLE_MODULES = YES;")
     lines.append("\t\t\t\tCODE_SIGN_IDENTITY = \"-\";")
     lines.append("\t\t\t\tCODE_SIGN_STYLE = Automatic;")
     lines.append("\t\t\t\tCOMBINE_HIDPI_IMAGES = YES;")
+    lines.append("\t\t\t\tASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;")
     lines.append("\t\t\t\tGENERATE_INFOPLIST_FILE = NO;")
     lines.append("\t\t\t\tINFOPLIST_FILE = Info.plist;")
     lines.append("\t\t\t\tLD_RUNPATH_SEARCH_PATHS = \"$(inherited) @executable_path/../Frameworks\";")
@@ -273,17 +293,19 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("\t\t\t\tSWIFT_COMPILATION_MODE = singlefile;")
     lines.append("\t\t\t\tSWIFT_EMIT_LOC_STRINGS = YES;")
     lines.append("\t\t\t\tSWIFT_OPTIMIZATION_LEVEL = \"-Onone\";")
-    lines.append("\t\t\t\tSWIFT_VERSION = 6.0;")
+    lines.append("\t\t\t\tSWIFT_VERSION = 5.0;")
     lines.append("\t\t\t};")
     lines.append("\t\t\tname = Debug;")
     lines.append("\t\t};")
-    lines.append("\t\tC0000008 /* Release */ = {")
+    lines.append("\t\tE0000035 /* Release */ = {")
+    lines.append("\t\t\tisa = XCBuildConfiguration;")
     lines.append("\t\t\tbuildSettings = {")
     lines.append("\t\t\t\tALWAYS_SEARCH_USER_PATHS = NO;")
     lines.append("\t\t\t\tCLANG_ENABLE_MODULES = YES;")
     lines.append("\t\t\t\tCODE_SIGN_IDENTITY = \"-\";")
     lines.append("\t\t\t\tCODE_SIGN_STYLE = Automatic;")
     lines.append("\t\t\t\tCOMBINE_HIDPI_IMAGES = YES;")
+    lines.append("\t\t\t\tASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;")
     lines.append("\t\t\t\tGENERATE_INFOPLIST_FILE = NO;")
     lines.append("\t\t\t\tINFOPLIST_FILE = Info.plist;")
     lines.append("\t\t\t\tLD_RUNPATH_SEARCH_PATHS = \"$(inherited) @executable_path/../Frameworks\";")
@@ -295,39 +317,16 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("\t\t\t\tSWIFT_COMPILATION_MODE = wholemodule;")
     lines.append("\t\t\t\tSWIFT_EMIT_LOC_STRINGS = YES;")
     lines.append("\t\t\t\tSWIFT_OPTIMIZATION_LEVEL = \"-O\";")
-    lines.append("\t\t\t\tSWIFT_VERSION = 6.0;")
+    lines.append("\t\t\t\tSWIFT_VERSION = 5.0;")
     lines.append("\t\t\t};")
     lines.append("\t\t\tname = Release;")
     lines.append("\t\t};")
     lines.append("\t\t/* End XCBuildConfiguration section */")
     lines.append("")
 
-    lines.append("\t\t/* Begin PBXProject section */")
-    lines.append("\t\tattributes = {")
-    lines.append("\t\t\tLastUpgradeCheck = 1500;")
-    lines.append("\t\t\tORGANIZATIONNAME = WeatherBar;")
-    lines.append("\t\t};")
-    lines.append("\t\tbuildConfigurationList = C0000005 /* Build configuration list for PBXProject \"WeatherBar\" */;")
-    lines.append("\t\tcompatibilityVersion = \"Xcode 14.0\";")
-    lines.append("\t\tdevelopmentRegion = en;")
-    lines.append("\t\thasScannedForEncodings = 0;")
-    lines.append("\t\tknownRegions = (")
-    lines.append("\t\t\ten,")
-    lines.append("\t\t\t);")
-    lines.append("\t\tmainGroup = C0000002 /* WeatherBar */;")
-    lines.append("\t\tproductRefGroup = C0000001 /* Products */;")
-    lines.append("\t\tprojectDirPath = \"\";")
-    lines.append("\t\tprojectRoot = \"\";")
-    lines.append("\t\ttargets = (")
-    lines.append("\t\t\tC0000004 /* WeatherBar */,")
-    lines.append("\t\t\t);")
-    lines.append("\t\t};")
-    lines.append("\t\t/* End PBXProject section */")
-    lines.append("")
-
     lines.append("\t\tC0000000 /* Project object */ = {")
     lines.append("\t\t\tisa = PBXProject;")
-    lines.append("\t\t\tbuildConfigurationList = C0000005 /* Build configuration list for PBXProject \"WeatherBar\" */;")
+    lines.append("\t\t\tbuildConfigurationList = E0000030 /* Build configuration list for PBXProject \"WeatherBar\" */;")
     lines.append("\t\t\tcompatibilityVersion = \"Xcode 14.0\";")
     lines.append("\t\t\tdevelopmentRegion = en;")
     lines.append("\t\t\thasScannedForEncodings = 0;")
@@ -337,12 +336,12 @@ def build_pbxproj(root_dir: Path, project_dir: Path) -> str:
     lines.append("\t\t\tmainGroup = C0000002 /* WeatherBar */;")
     lines.append("\t\t\tproductRefGroup = C0000001 /* Products */;")
     lines.append("\t\t\ttargets = (")
-    lines.append("\t\t\t\tC0000004 /* WeatherBar */,")
+    lines.append("\t\t\t\tE0000020 /* WeatherBar */,")
     lines.append("\t\t\t);")
     lines.append("\t\t};")
     lines.append("\t};")
     lines.append("\trootObject = C0000000 /* Project object */;")
-    lines.append("};")
+    lines.append("}")
     return "\n".join(lines) + "\n"
 
 
@@ -382,7 +381,7 @@ def write_project_files(output_project: Path, root_dir: Path) -> None:
         "            buildForAnalyzing = \"YES\">\n"
         "            <BuildableReference\n"
         "               BuildableIdentifier = \"primary\"\n"
-        "               BlueprintIdentifier = \"C0000004\"\n"
+        "               BlueprintIdentifier = \"E0000020\"\n"
         "               BuildableName = \"WeatherBar.app\"\n"
         "               BlueprintName = \"WeatherBar\"\n"
         "               ReferencedContainer = \"container:WeatherBar.xcodeproj\">\n"
@@ -404,7 +403,7 @@ def write_project_files(output_project: Path, root_dir: Path) -> None:
         "         runnableDebuggingMode = \"0\">\n"
         "         <BuildableReference\n"
         "            BuildableIdentifier = \"primary\"\n"
-        "            BlueprintIdentifier = \"C0000004\"\n"
+        "            BlueprintIdentifier = \"E0000020\"\n"
         "            BuildableName = \"WeatherBar.app\"\n"
         "            BlueprintName = \"WeatherBar\"\n"
         "            ReferencedContainer = \"container:WeatherBar.xcodeproj\">\n"

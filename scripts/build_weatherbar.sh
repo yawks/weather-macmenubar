@@ -64,12 +64,13 @@ while [[ $# -gt 0 ]]; do
     shift
  done
 
-mkdir -p "$(dirname "$LOG_FILE")"
 mkdir -p "$(dirname "$OUTPUT_PROJECT")"
 
 if [[ $CLEAN -eq 1 ]]; then
     rm -rf "$OUTPUT_PROJECT" "$ROOT_DIR/.build" "$ROOT_DIR/Info.plist"
 fi
+
+mkdir -p "$(dirname "$LOG_FILE")"
 
 PYTHON_BIN="$(command -v python3 || command -v python)"
 if [[ -z "$PYTHON_BIN" ]]; then
