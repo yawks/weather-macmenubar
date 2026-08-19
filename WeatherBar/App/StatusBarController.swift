@@ -10,6 +10,7 @@ class StatusBarController {
     private var airQualityManager: AirQualityManager
     private var eventMonitor: Any?
     private var cancellables = Set<AnyCancellable>()
+    private let panelPresentation = PanelPresentationState()
 
     init(settings: AppSettings, weatherManager: WeatherManager, airQualityManager: AirQualityManager) {
         self.settings = settings
@@ -20,7 +21,8 @@ class StatusBarController {
         let contentView = MainWeatherView(
             settings: settings,
             weatherManager: weatherManager,
-            airQualityManager: airQualityManager
+            airQualityManager: airQualityManager,
+            panelPresentation: panelPresentation
         )
         let hostingController = NSHostingController(rootView: contentView)
 
@@ -68,6 +70,8 @@ class StatusBarController {
     }
 
     func showPanel() {
+        panelPresentation.isVisible = true
+
         if let button = statusItem.button {
             let buttonRect = button.window?.convertToScreen(button.frame) ?? .zero
             let panelRect = panel.frame
@@ -83,6 +87,7 @@ class StatusBarController {
     }
 
     func hidePanel() {
+        panelPresentation.isVisible = false
         panel.orderOut(nil)
     }
 

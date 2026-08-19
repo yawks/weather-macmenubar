@@ -1,5 +1,9 @@
 import SwiftUI
 
+final class PanelPresentationState: ObservableObject {
+    @Published var isVisible = false
+}
+
 struct WeatherIcon: View {
     let iconCode: String
     var size: CGFloat = 20
@@ -48,6 +52,7 @@ private struct WeatherSkyGradient: View {
 /// in SwiftUI avoids shipping large videos while still adapting to day/night.
 struct AnimatedWeatherBackground: View {
     let weather: CurrentWeather
+    @ObservedObject var panelPresentation: PanelPresentationState
     var moonPhase: Double? = nil
     var conditionOverride: WeatherCondition? = nil
     var isDayOverride: Bool? = nil
@@ -64,10 +69,25 @@ struct AnimatedWeatherBackground: View {
         conditionOverride ?? weather.condition
     }
 
+    private var animationInterval: TimeInterval {
+        switch condition {
+        case .rain, .thunderstorm:
+            return 1.0 / 24.0
+        case .drizzle, .snow, .cloudy, .atmosphere:
+            return 1.0 / 15.0
+        case .clear:
+            return 1.0 / 10.0
+        }
+    }
+
+    private var animationPaused: Bool {
+        !panelPresentation.isVisible || reduceMotion || (isDay && condition == .clear)
+    }
+
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            TimelineView(.animation(minimumInterval: reduceMotion ? 1 : 1.0 / 30.0, paused: reduceMotion)) { timeline in
-                Canvas { context, size in
+            TimelineView(.animation(minimumInterval: animationInterval, paused: animationPaused)) { timeline in
+                Canvas(opaque: false, colorMode: .nonLinear, rendersAsynchronously: true) { context, size in
                     let time = timeline.date.timeIntervalSinceReferenceDate
                     drawSkyDetails(context: &context, size: size, time: time)
                     drawClouds(context: &context, size: size, time: time)
@@ -247,6 +267,7 @@ struct MainWeatherView: View {
     @ObservedObject var settings: AppSettings
     @ObservedObject var weatherManager: WeatherManager
     @ObservedObject var airQualityManager: AirQualityManager
+    @ObservedObject var panelPresentation: PanelPresentationState
 
     private let backgroundPreview = BackgroundPreview.fromCommandLine
 
@@ -257,6 +278,7 @@ struct MainWeatherView: View {
                     if let current = weatherManager.weather?.current {
                         AnimatedWeatherBackground(
                             weather: current,
+                            panelPresentation: panelPresentation,
                             moonPhase: currentMoonPhase,
                             conditionOverride: backgroundPreview.condition,
                             isDayOverride: backgroundPreview.isDay
